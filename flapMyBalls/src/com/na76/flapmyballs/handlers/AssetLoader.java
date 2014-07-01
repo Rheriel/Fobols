@@ -16,9 +16,14 @@ public class AssetLoader {
 
 	public static final float RUNNING_FRAME_DURATION = 0.06f;
 
+	public static TextureAtlas itemAtlas;
+	
+	public static AtlasRegion spike;
+	
 	/* Animation */
 
 	public static TextureAtlas dudeAtlas;
+	
 
 	public static Animation	dudeAnimation;
 
@@ -44,17 +49,24 @@ public class AssetLoader {
 
 	public static Texture spikes;
 	
-	public static Sprite spikeSprite; 
+	public static Sprite spikeSprite;
+
+	public static AtlasRegion flippedSpike; 
 	
 
 	public static void load() {
 
 		backGround = new Texture(Gdx.files.internal("data/bg.png"));
 
-		spikes = new Texture(Gdx.files.internal("data/Items/spikes.png"));
-		spikes.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		itemAtlas = new TextureAtlas(Gdx.files.internal("data/Items/Atlas/items.txt"));
 		
-		spikeSprite = new Sprite(spikes);
+		spike = itemAtlas.findRegion("spikes_top");
+		
+		spikeSprite = new Sprite(spike);
+		
+		flippedSpike = itemAtlas.findRegion("spikes_bottom");
+		
+		flippedSpike.flip(false, true);
 
 		dudeAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1_walk/Pack/dudeWalk.atlas"), true);
 
@@ -95,7 +107,7 @@ public class AssetLoader {
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.
 		backGround.dispose();
-		spikes.dispose();
+		itemAtlas.dispose();
 		dudeAtlas.dispose();
 	}
 

@@ -14,7 +14,7 @@ import com.na76.flapmyballs.screens.GameScreen;
 public class GameWorld {
 
 	public static final int BOLA_WIDTH = 22;
-	public static final int BOLA_HEIGHT = 27;
+	public static final int BOLA_HEIGHT = 26;
 
 
 	private Bola bola;

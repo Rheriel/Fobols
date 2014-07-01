@@ -26,11 +26,6 @@ public class GameRenderer {
 	private int midPointY;
 	private int gameHeight;
 
-	private static float spikesScaleWidth = AssetLoader.spikes.getWidth() * .5f;
-	private static float spikesScaleHeight = AssetLoader.spikes.getHeight() * .5f;
-
-
-
 	public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
 
 		myWorld = world;
@@ -114,12 +109,12 @@ public class GameRenderer {
 
 		// Draw top spikes.
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += Spikes.SCALED_SPIKES_WIDTH) {
-			batcher.draw(AssetLoader.spikes, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
+			batcher.draw(AssetLoader.spike, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
 		}
 
 		// Draw bottom spikes.
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += Spikes.SCALED_SPIKES_WIDTH) {
-			batcher.draw(AssetLoader.spikes, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight(), AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(),AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(), false, true);
+			batcher.draw(AssetLoader.flippedSpike, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
 		}
 	}
 

@@ -16,8 +16,8 @@ public class Spikes implements GameObject, Collidable {
 	private Vector2 velocity;
 	private Vector2 acceleration;
 
-	public static final float SCALED_SPIKES_WIDTH =  AssetLoader.spikes.getWidth() * .5f;
-	public static final float SCALED_SPIKES_HEIGHT =  AssetLoader.spikes.getWidth() * .5f;
+	public static final float SCALED_SPIKES_WIDTH =  AssetLoader.spike.getRegionWidth() * .5f;
+	public static final float SCALED_SPIKES_HEIGHT =  AssetLoader.spike.getRegionHeight() * .5f;
 	
 	private Rectangle hitbox; 
 	
