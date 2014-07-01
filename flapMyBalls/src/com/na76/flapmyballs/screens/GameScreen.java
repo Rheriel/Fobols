@@ -12,20 +12,18 @@ public class GameScreen implements Screen {
 	private GameRenderer renderer;
 	private float runTime;
 	
+	public static final float SCREEN_WIDTH = Gdx.graphics.getWidth();
+	public static final float SCREEN_HEIGHT =  Gdx.graphics.getHeight();
+	public static final float GAME_WIDTH = 136;
+	public static final float GAME_HEIGHT = SCREEN_HEIGHT  / (SCREEN_WIDTH / GAME_WIDTH);
+	public static final int GAME_MID_POINT_Y = (int) (GAME_HEIGHT / 2);
+	
 	public GameScreen(){
 		
-		float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();      
-        float gameWidth = 136;
-        float gameHeight = screenHeight / (screenWidth / gameWidth);
+        world = new GameWorld(GAME_MID_POINT_Y);
+        renderer = new GameRenderer(world, (int) GAME_HEIGHT, GAME_MID_POINT_Y);
         
-        int midPointY = (int) (gameHeight / 2);
-        int midPointX = (int) (gameWidth / 2);
-
-        world = new GameWorld(midPointX, midPointY);
-        renderer = new GameRenderer(world, (int) gameHeight, midPointY);
-        
-        Gdx.input.setInputProcessor(new InputHandler(world.getDude()));
+        Gdx.input.setInputProcessor(new InputHandler(world.getBola()));
         
 	}
 

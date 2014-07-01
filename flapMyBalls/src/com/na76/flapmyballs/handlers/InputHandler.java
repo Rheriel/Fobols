@@ -5,55 +5,34 @@ import java.util.Map;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.na76.flapmyballs.gameobjects.Dude;
-import com.na76.flapmyballs.gameobjects.Dude.State;
+import com.na76.flapmyballs.gameobjects.Bola;
+import com.na76.flapmyballs.gameobjects.Bola.State;
 
 public class InputHandler implements InputProcessor {
 
-	private Dude myBola;
-
+	private Bola myBola;
+	
 	private enum EnumKeys {
 		LEFT, RIGHT
 	}
 
 	static Map<EnumKeys, Boolean> keys = new HashMap<EnumKeys, Boolean>();
-	static {
-		keys.put(EnumKeys.LEFT, false);
-		keys.put(EnumKeys.RIGHT, false);
-	};
+	    static {
+	        keys.put(EnumKeys.LEFT, false);
+	        keys.put(EnumKeys.RIGHT, false);
+	    };
 
-
-	public InputHandler(Dude bola) {
+	    
+	public InputHandler(Bola bola) {
 		myBola = bola;
 	}
 
 	@Override
-	public boolean keyDown(int keyCode) {
-		switch(keyCode){
-		case Keys.A:
-		case Keys.LEFT:
-			// left is pressed
-			myBola.setFacingLeft(true);
-			myBola.setState(State.WALKING);
-			// Add velocity and movement.
-			myBola.addVelocity(-10f);
-			break;
-		case Keys.D:
-		case Keys.RIGHT:
-			myBola.setFacingLeft(false);
-			myBola.setState(State.WALKING);
-			// Add velocity and movement.
-			myBola.addVelocity(10f);
-			break;
-		}
-		// need to check if both or none direction are pressed, then myBola is idle
-		if ((keyCode == Keys.LEFT) && (keyCode == Keys.RIGHT) ||
-				(!(keyCode == Keys.LEFT) && !(keyCode == Keys.RIGHT))) {
-			myBola.setState(State.IDLE);
-			myBola.setVelocity(0f);
-			// acceleration is 0 on the x
-		}
-
+	public boolean keyDown(int keycode) {
+		if (keycode == Keys.LEFT)
+			leftPressed();
+		if (keycode == Keys.RIGHT)
+			rightPressed();
 		return true;
 
 	}
@@ -61,7 +40,7 @@ public class InputHandler implements InputProcessor {
 	public void leftPressed() {
 		keys.get(keys.put(EnumKeys.LEFT, true));
 	}
-
+	
 	public void rightPressed() {
 		keys.get(keys.put(EnumKeys.RIGHT, true));
 	}
@@ -119,6 +98,33 @@ public class InputHandler implements InputProcessor {
 
 	/** The main update method **/
 	public void update(float delta) {
+		processInput();
 		myBola.update(delta);
 	}
+
+
+	private void processInput() {
+
+		if (keys.get(Keys.LEFT)) {
+			// left is pressed
+			myBola.setFacingLeft(true);
+			myBola.setState(State.WALKING);
+			// Add velocity and movement.
+		}
+		if (keys.get(Keys.RIGHT)) {
+			// left is pressed
+			myBola.setFacingLeft(false);
+			myBola.setState(State.WALKING);
+			// Add velocity and movement.
+		}
+		// need to check if both or none direction are pressed, then myBola is idle
+		if ((keys.get(Keys.LEFT) && keys.get(Keys.RIGHT)) ||
+				(!keys.get(Keys.LEFT) && !(keys.get(Keys.RIGHT)))) {
+			myBola.setState(State.IDLE);
+			// acceleration is 0 on the x
+			// horizontal speed is 0
+		}
+	}
+
+
 }

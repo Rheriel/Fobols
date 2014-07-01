@@ -7,19 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.na76.flapmyballs.gameobjects.Dude;
-import com.na76.flapmyballs.gameobjects.Dude.State;
+import com.badlogic.gdx.math.Rectangle;
+import com.na76.flapmyballs.gameobjects.Bola;
+import com.na76.flapmyballs.gameobjects.Bola.State;
+import com.na76.flapmyballs.gameobjects.Spikes;
 import com.na76.flapmyballs.handlers.AssetLoader;
 
 public class GameRenderer {
-
-	private static final float DUDE_INITIAL_X = 20;
-
-	private static final float DUDE_INITIAL_Y = 20;
-
-	private static final float DUDE_RESIZE_WIDTH = 22;
-
-	private static final float DUDE_RESIZE_HEIGHT = 27;
 
 	private GameWorld myWorld;
 
@@ -69,50 +63,94 @@ public class GameRenderer {
 
 		AssetLoader.stateTime += Gdx.graphics.getDeltaTime();
 
-		AssetLoader.currentDudeFrame = AssetLoader.dudeWalkLeftAnimation.getKeyFrame(AssetLoader.stateTime, true);
-
-		// Begin ShapeRenderer
-		shapeRenderer.begin(ShapeType.Filled);
-
-		// End ShapeRenderer
-		shapeRenderer.end();
-
 		// Begin SpriteBatch
 		batcher.begin();
 
 		// Draw background.
 		batcher.draw(AssetLoader.backGround,0,0);
 
-		// Draw top spikes.
-		for(int i = 0; i <= Gdx.graphics.getWidth(); i += spikesScaleWidth) {
-			batcher.draw(AssetLoader.spikes, i, 0, spikesScaleWidth, spikesScaleHeight, AssetLoader.spikes.getWidth(),AssetLoader.spikes.getHeight(), AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(), false, false);
-		}
+		// Draws top and bottom spikes
+		drawSpikes();
 
-		// Draw bottom spikes.
-		for(int i = 0; i <= Gdx.graphics.getWidth(); i += spikesScaleWidth) {
-			batcher.draw(AssetLoader.spikes, i, gameHeight - spikesScaleHeight, spikesScaleHeight, spikesScaleWidth, AssetLoader.spikes.getWidth(),AssetLoader.spikes.getHeight(),AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(), false, true);
-		}
-
-		// Draw dude animation.
+		// Draw bola animation.
 		drawBola();
 
 		// End SpriteBatch
 		batcher.end();
+		
+		// Begin ShapeRenderer
+		shapeRenderer.begin(ShapeType.Line);
+		
+		drawBolaBounds();
+		drawSpikesBounds();
+
+		// End ShapeRenderer
+		shapeRenderer.end();
 
 	}
 
+	private void drawSpikesBounds() {
+		Rectangle bounds = myWorld.getTopSpikes().getHitbox();
+		drawBounds(bounds);
+		bounds = myWorld.getBottomSpikes().getHitbox();
+		drawBounds(bounds);
+	}
+
+	private void drawBounds(Rectangle bounds) {
+		shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+	}
+
+	private void drawBolaBounds() {
+		Rectangle bounds = myWorld.getBola().getHitbox();
+		drawBounds(bounds);
+	}
+
+	// TODO Refactor:
+	// This should belong to the Spikes class instead.
+	private void drawSpikes() {
+
+		Spikes topSpikes = myWorld.getTopSpikes();
+		Spikes bottomSpikes = myWorld.getBottomSpikes();
+
+		// Draw top spikes.
+		for(int i = 0; i <= Gdx.graphics.getWidth(); i += Spikes.SCALED_SPIKES_WIDTH) {
+			batcher.draw(AssetLoader.spikes, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
+		}
+
+		// Draw bottom spikes.
+		for(int i = 0; i <= Gdx.graphics.getWidth(); i += Spikes.SCALED_SPIKES_WIDTH) {
+			batcher.draw(AssetLoader.spikes, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight(), AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(),AssetLoader.spikes.getWidth(), AssetLoader.spikes.getHeight(), false, true);
+		}
+	}
+
+	// TODO Refactor:
+	// This must belong to Bola's draw method instead.
 	private void drawBola(){
 
-		Dude bola = myWorld.getDude();
+		Bola bola = myWorld.getBola();
 
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			bola.setFacingLeft(true);
+			bola.setState(State.WALKING);
 			while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
 				AssetLoader.stateTime -= AssetLoader.RUNNING_FRAME_DURATION;
 				AssetLoader.currentDudeFrame = bola.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(bola.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(bola.getStateTime(), true);
 			}
+		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			bola.setFacingLeft(false);
+			bola.setState(State.WALKING);
+			while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
+				AssetLoader.stateTime -= AssetLoader.RUNNING_FRAME_DURATION;
+				AssetLoader.currentDudeFrame = bola.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(bola.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(bola.getStateTime(), true);
+			}
+		} else if ((Gdx.input.isKeyPressed(Keys.LEFT)) && (Gdx.input.isKeyPressed(Keys.RIGHT)) ||
+				((!Gdx.input.isKeyPressed(Keys.LEFT)) && (!Gdx.input.isKeyPressed(Keys.RIGHT)))) {
+			bola.setState(State.IDLE);
+			AssetLoader.currentDudeFrame = bola.isFacingLeft() ? AssetLoader.dudeWalkLeftFrames[0] : AssetLoader.dudeWalkRightFrames[0];
 		}
-		
+
 		batcher.draw(AssetLoader.currentDudeFrame, bola.getX(),bola.getY(),bola.getWidth(),bola.getHeight());
+
 	}
 
 }

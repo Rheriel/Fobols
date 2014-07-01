@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.na76.flapmyballs.gameobjects.Spikes;
 
 public class AssetLoader {
 
@@ -42,10 +43,9 @@ public class AssetLoader {
 	public static Texture backGround;
 
 	public static Texture spikes;
-
-
-
-
+	
+	public static Sprite spikeSprite; 
+	
 
 	public static void load() {
 
@@ -53,6 +53,8 @@ public class AssetLoader {
 
 		spikes = new Texture(Gdx.files.internal("data/Items/spikes.png"));
 		spikes.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		
+		spikeSprite = new Sprite(spikes);
 
 		dudeAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1_walk/Pack/dudeWalk.atlas"), true);
 
@@ -76,14 +78,14 @@ public class AssetLoader {
 			}
 			System.out.println(region);
 			
-			dudeWalkLeftFrames[i] = dudeAtlas.findRegion(region);
+			dudeWalkRightFrames[i] = dudeAtlas.findRegion(region);
 		}
 
 		dudeWalkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkLeftFrames);
 
 		for (int i = 0; i < 11; i++) {
-			dudeWalkRightFrames[i] = new TextureRegion(dudeWalkLeftFrames[i]);
-			dudeWalkRightFrames[i].flip(true, false);
+			dudeWalkLeftFrames[i] = new TextureRegion(dudeWalkRightFrames[i]);
+			dudeWalkLeftFrames[i].flip(true, false);
 		}
 
 		dudeWalkRightAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkRightFrames);
