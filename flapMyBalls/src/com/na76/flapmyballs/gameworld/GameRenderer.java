@@ -73,6 +73,8 @@ public class GameRenderer {
 		// End SpriteBatch
 		batcher.end();
 		
+		//TouchListener
+		
 		// Begin ShapeRenderer
 		shapeRenderer.begin(ShapeType.Line);
 		

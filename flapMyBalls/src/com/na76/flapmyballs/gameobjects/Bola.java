@@ -1,5 +1,6 @@
 package com.na76.flapmyballs.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.na76.flapmyballs.gameobjects.Bola.State;
@@ -13,11 +14,15 @@ public class Bola implements GameObject, Collidable {
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
+	private Vector2 touchedPoint;
 
 	private int width;
 	private int height;
 	
 	private Rectangle hitbox;
+	
+
+	
 
 	public enum State {
 		IDLE, WALKING, FALLING, DYING
@@ -35,7 +40,9 @@ public class Bola implements GameObject, Collidable {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
 		acceleration = new Vector2(0, 460);
+		touchedPoint = new Vector2();
 		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
+		
 	}
 	
 	public Rectangle getHitbox(){
@@ -47,20 +54,33 @@ public class Bola implements GameObject, Collidable {
 
 		velocity.add(acceleration.cpy().scl(delta));
 
-		if (velocity.y > 200) {
-			velocity.y = 200;
+		if (velocity.y > 20) {
+			velocity.y = 20;
 		}
 
 		position.add(velocity.cpy().scl(delta));
 		
 		hitbox.y = position.y;
+		hitbox.x = position.x;
 		
 		stateTime += delta;
 
 	}
 
 	public void onClick() {
-		velocity.y = -140;
+		Rectangle leftSide;
+		Rectangle rightSide;
+		
+		leftSide = new Rectangle (0, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+		rightSide = new Rectangle ( Gdx.graphics.getWidth()/2, 0,  Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		velocity.y = -100;
+		if (Gdx.input.justTouched()){
+			touchedPoint.set(Gdx.input.getX(), Gdx.input.getY());
+			if(leftSide.contains(touchedPoint)){position.x = position.x - 3f;}
+			else if(rightSide.contains(touchedPoint)){position.x = position.x + 3f;}
+		}
+		
 	}
 
 	public float getX() {
