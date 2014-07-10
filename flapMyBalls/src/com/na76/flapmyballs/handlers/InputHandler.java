@@ -68,14 +68,15 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		myBola.onClick();
+		myBola.setState(Bola.State.WALKING);
+		myBola.touchDown();
 		return true; // Return true to say we handled the touch.
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		myBola.setState(Bola.State.IDLE);
+		return true; // Return true to say we handled the touch.
 	}
 
 	@Override
@@ -109,12 +110,14 @@ public class InputHandler implements InputProcessor {
 			// left is pressed
 			myBola.setFacingLeft(true);
 			myBola.setState(State.WALKING);
+			myBola.touchDown();
 			// Add velocity and movement.
 		}
 		if (keys.get(Keys.RIGHT)) {
 			// left is pressed
 			myBola.setFacingLeft(false);
 			myBola.setState(State.WALKING);
+			myBola.touchDown();
 			// Add velocity and movement.
 		}
 		// need to check if both or none direction are pressed, then myBola is idle

@@ -2,13 +2,11 @@ package com.na76.flapmyballs.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.na76.flapmyballs.gameobjects.Spikes;
 
 public class AssetLoader {
 
@@ -18,7 +16,6 @@ public class AssetLoader {
 
 	public static TextureAtlas itemAtlas;
 	
-	public static AtlasRegion spike;
 	
 	/* Animation */
 
@@ -47,10 +44,10 @@ public class AssetLoader {
 
 	public static Texture backGround;
 
-	public static Texture spikes;
-	
 	public static Sprite spikeSprite;
 
+	public static AtlasRegion spike;
+	
 	public static AtlasRegion flippedSpike; 
 	
 

@@ -1,25 +1,24 @@
 package com.na76.flapmyballs.gameobjects;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.na76.flapmyballs.handlers.AssetLoader;
 import com.na76.flapmyballs.interfaces.Collidable;
 import com.na76.flapmyballs.interfaces.GameObject;
-import com.na76.flapmyballs.screens.GameScreen;
 
-public class Spikes implements GameObject, Collidable {
-	
+public class Spikes extends GameObject implements Collidable {
+
 	private float width;
 	private float height;
-	
+
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
-
-	public static final float SCALED_SPIKES_WIDTH =  AssetLoader.spike.getRegionWidth() * .5f;
-	public static final float SCALED_SPIKES_HEIGHT =  AssetLoader.spike.getRegionHeight() * .5f;
 	
-	private Rectangle hitbox; 
+	private TextureRegion texture;
 	
 	public Spikes(float x, float y, float width, float height) {
 		this.width = width;
@@ -27,9 +26,27 @@ public class Spikes implements GameObject, Collidable {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
 		acceleration = new Vector2(0, 0);
-		hitbox = new Rectangle(this.position.x, this.position.y, GameScreen.GAME_WIDTH, SCALED_SPIKES_HEIGHT / 2);
+		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
 	}
 
+	public Spikes(float x, float y, float width, float height, TextureRegion texture) {
+		this.width = width;
+		this.height = height;
+		position = new Vector2(x, y);
+		velocity = new Vector2(0, 0);
+		acceleration = new Vector2(0, 0);
+		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
+		this.texture = texture;
+	}
+
+	public void setTexture(TextureRegion texture){
+		this.texture = texture;
+	}
+	
+	public TextureRegion getTexture(){
+		return texture;
+	}
+	
 	@Override
 	public void onCollide() {
 		// If Bola collides with them then end game, else do nothing.
@@ -55,13 +72,21 @@ public class Spikes implements GameObject, Collidable {
 	public void setHeight(float height) {
 		this.height = height;
 	}
-	
+
 	public float getX() {
 		return position.x;
 	}
 
 	public float getY() {
 		return position.y;
+	}
+	
+	public void setX(float x) {
+		this.position.x = x;
+	}
+
+	public void setY(float y) {
+		this.position.y = y;
 	}
 
 	public float getVelocityX() {
@@ -79,7 +104,7 @@ public class Spikes implements GameObject, Collidable {
 	public void setVelocityY(float velocity) {
 		this.velocity.y = velocity;
 	}
-	
+
 	public float getAccelerationX() {
 		return acceleration.x;
 	}
@@ -96,10 +121,6 @@ public class Spikes implements GameObject, Collidable {
 		this.acceleration.y = acceleration;
 	}
 
-	public Rectangle getHitbox() {
-		return this.hitbox;
-	}
-
 	public void setNewBounds(float x, float y, float width, float height) {
 		this.hitbox.x = x;
 		this.hitbox.y = y;
@@ -107,5 +128,26 @@ public class Spikes implements GameObject, Collidable {
 		this.hitbox.height = height;
 	}
 
+	public void draw(SpriteBatch batcher) {
+
+		// Begin batcher.
+		batcher.begin();
+		
+		// Draw this object
+		batcher.draw(this.texture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		
+		// End batcher.
+		batcher.end();
+	}
+
+	public void drawBounds(ShapeRenderer shapeRenderer){
+		// Begin ShapeRenderer
+		shapeRenderer.begin(ShapeType.Line);
+		Rectangle bounds = this.getHitbox();
+		shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+		shapeRenderer.end();
+		// End ShapeRenderer
+
+	}	
 
 }

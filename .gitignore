@@ -1,3 +1,4 @@
 # Ignore jar files
 flapMyBalls-android/bin/*
 flapMyBalls-android/bin/*.apk
+*.class
