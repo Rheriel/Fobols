@@ -58,6 +58,7 @@ public class GameRenderer {
 
 	}
 	
+	// TODO Refactor.
 	private void drawBackground(){
 		
 		Spikes topSpikes = myWorld.getTopSpikes();
@@ -66,24 +67,18 @@ public class GameRenderer {
 		Rectangle topBounds = topSpikes.getHitbox();
 		Rectangle bottomBounds = bottomSpikes.getHitbox();
 
-		// Begin SpriteBatch
 		batcher.begin();
 
-		// Draw background.
 		batcher.draw(AssetLoader.backGround,0,0);
 		
-		
-		// Draw top spikes.
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += topSpikes.getWidth()) {
 			batcher.draw(AssetLoader.spike, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
 		}
 
-		// Draw bottom spikes.
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += bottomSpikes.getWidth()) {
 			batcher.draw(AssetLoader.flippedSpike, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
 		}
 		
-		// End SpriteBatch
 		batcher.end();
 
 		shapeRenderer.begin(ShapeType.Line);

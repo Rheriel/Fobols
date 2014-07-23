@@ -141,9 +141,7 @@ public class Bola extends GameObject implements Collidable {
 				AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(this.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(this.getStateTime(), true);
 			}
 		} 
-		// TODO Remove this.
-		else if ((Gdx.input.isKeyPressed(Keys.LEFT)) && (Gdx.input.isKeyPressed(Keys.RIGHT)) ||
-				((!Gdx.input.isKeyPressed(Keys.LEFT)) && (!Gdx.input.isKeyPressed(Keys.RIGHT)))) {
+		else if ((!Gdx.input.isKeyPressed(Keys.LEFT)) && (!Gdx.input.isKeyPressed(Keys.RIGHT))) {
 			this.setState(State.IDLE);
 			AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftFrames[0] : AssetLoader.dudeWalkRightFrames[0];
 		}
