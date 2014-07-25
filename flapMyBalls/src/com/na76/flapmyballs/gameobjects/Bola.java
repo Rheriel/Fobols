@@ -25,7 +25,7 @@ public class Bola extends GameObject implements Collidable {
 		IDLE, WALKING, FALLING, DYING
 	}
 
-	State state = State.IDLE;
+	private State state;
 
 	boolean facingLeft = true;
 
@@ -39,22 +39,26 @@ public class Bola extends GameObject implements Collidable {
 		acceleration = new Vector2(0, 460);
 		touchedPoint = new Vector2();
 		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
-
+		this.state = State.FALLING;
 	}
 
 	public void update(float delta) {
-
-		//		velocity.add(acceleration.cpy().scl(delta));
-
-		if (velocity.y > 180) {
-			velocity.y = 20;
+		System.out.println(this.getState());
+		if (this.getState() == State.FALLING){
+			
+			velocity.add(acceleration.cpy().scl(delta));
+			
+			if (velocity.y > 20) {
+				velocity.y = 20;
+			
+			}
+			position.add(velocity.cpy().scl(delta));
 		}
-
-		position.add(velocity.cpy().scl(delta));
+		
 
 		hitbox.y = position.y;
 		hitbox.x = position.x;
-
+		
 		stateTime += delta;
 
 	}
@@ -110,7 +114,7 @@ public class Bola extends GameObject implements Collidable {
 	}
 
 	public State getState() {
-		return state;
+		return this.state;
 	}
 
 	public float getStateTime() {
@@ -119,6 +123,7 @@ public class Bola extends GameObject implements Collidable {
 
 	@Override
 	public void onCollide() {
+		System.out.println("COLLIDING!");
 		state = State.IDLE;
 		velocity.y = 0;
 		acceleration.y = 0;
@@ -126,29 +131,32 @@ public class Bola extends GameObject implements Collidable {
 
 	public void draw(SpriteBatch batcher){
 
+		if (this.state == State.FALLING){
+			AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeFallingLeft : AssetLoader.dudeFallingRight;
+		}
+		
 		if (Gdx.input.isTouched()) {
 
 			this.touchDown();
-			this.setState(State.WALKING);
-			while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
-				AssetLoader.stateTime -= AssetLoader.RUNNING_FRAME_DURATION;
-				AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(this.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(this.getStateTime(), true);
-			}
-		} else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			this.setState(State.WALKING);
-			while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
-				AssetLoader.stateTime -= AssetLoader.RUNNING_FRAME_DURATION;
-				AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(this.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(this.getStateTime(), true);
+			
+			if (this.getState() == State.IDLE) {
+				this.setState(State.WALKING);
+				while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
+					AssetLoader.stateTime -= AssetLoader.RUNNING_FRAME_DURATION;
+					AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftAnimation.getKeyFrame(this.getStateTime(), true) : AssetLoader.dudeWalkRightAnimation.getKeyFrame(this.getStateTime(), true);
+				}
 			}
 		} 
-		else if ((!Gdx.input.isKeyPressed(Keys.LEFT)) && (!Gdx.input.isKeyPressed(Keys.RIGHT))) {
-			this.setState(State.IDLE);
-			AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeWalkLeftFrames[0] : AssetLoader.dudeWalkRightFrames[0];
-		}
 		batcher.begin();
 		batcher.draw(AssetLoader.currentDudeFrame, this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		batcher.end();
 
+	}
+
+	public void touchUp() {
+		if (this.state == State.WALKING){
+			this.state = State.IDLE;
+		}
 	}
 
 }

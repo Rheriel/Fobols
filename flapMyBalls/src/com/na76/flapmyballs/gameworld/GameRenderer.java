@@ -58,7 +58,6 @@ public class GameRenderer {
 
 	}
 	
-	// TODO Refactor.
 	private void drawBackground(){
 		
 		Spikes topSpikes = myWorld.getTopSpikes();

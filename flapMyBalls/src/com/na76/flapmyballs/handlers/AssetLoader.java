@@ -31,7 +31,13 @@ public class AssetLoader {
 	public static AtlasRegion dudeIdleLeft;
 
 	public static TextureRegion dudeIdleRight;
+	
+	public static TextureAtlas dudeFallingAtlas;
 
+	public static TextureRegion dudeFallingLeft; 
+	
+	public static TextureRegion dudeFallingRight; 
+	
 	public static TextureRegion[] dudeWalkLeftFrames;
 
 	public static TextureRegion[] dudeWalkRightFrames;
@@ -48,7 +54,8 @@ public class AssetLoader {
 
 	public static AtlasRegion spike;
 	
-	public static AtlasRegion flippedSpike; 
+	public static AtlasRegion flippedSpike;
+
 	
 
 	public static void load() {
@@ -68,6 +75,14 @@ public class AssetLoader {
 		dudeAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1_walk/Pack/dudeWalk.atlas"), true);
 
 		dudeIdleLeft = dudeAtlas.findRegion("p1_walk01");
+		
+		// TODO Refactor to put every char texture on a single TextureAtlas.
+		dudeFallingAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1.txt"));
+		dudeFallingLeft = dudeFallingAtlas.findRegion("p1_jump");
+		dudeFallingLeft.flip(false, true); // TODO Image is flipped in Atlas, fix it.
+		dudeFallingRight = new TextureRegion(dudeFallingLeft);
+		dudeFallingLeft.flip(true, false); // TODO Image is flipped in Atlas, fix it.
+
 		
 		dudeIdleRight = new TextureRegion(dudeIdleLeft);
 
