@@ -51,10 +51,36 @@ public class GameRenderer {
 		// Draws everything
 		List<GameObject> gameObjects = myWorld.getObjectsPool();
 		
+<<<<<<< HEAD
 		for (GameObject gameObject : gameObjects) {
 			gameObject.draw(batcher);
 			gameObject.drawBounds(shapeRenderer);
 		}
+=======
+		//TouchListener
+		
+		// Begin ShapeRenderer
+		shapeRenderer.begin(ShapeType.Line);
+		
+		drawBolaBounds();
+		drawSpikesBounds();
+
+		// End ShapeRenderer
+		shapeRenderer.end();
+
+	}
+
+	private void drawSpikesBounds() {
+		Rectangle bounds = myWorld.getTopSpikes().getHitbox();
+		drawBounds(bounds);
+		bounds = myWorld.getBottomSpikes().getHitbox();
+		drawBounds(bounds);
+	}
+
+	private void drawBounds(Rectangle bounds) {
+		shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+	}
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 
 	}
 	

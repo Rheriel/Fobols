@@ -1,8 +1,11 @@
 package com.na76.flapmyballs.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+<<<<<<< HEAD
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+=======
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.na76.flapmyballs.handlers.AssetLoader;
@@ -20,6 +23,14 @@ public class Bola extends GameObject implements Collidable {
 
 	private int width;
 	private int height;
+<<<<<<< HEAD
+=======
+	
+	private Rectangle hitbox;
+	
+
+	
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 
 	public enum State {
 		IDLE, WALKING, FALLING, DYING
@@ -39,9 +50,14 @@ public class Bola extends GameObject implements Collidable {
 		acceleration = new Vector2(0, 460);
 		touchedPoint = new Vector2();
 		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
+<<<<<<< HEAD
 		this.state = State.FALLING;
+=======
+		
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 	}
 
+<<<<<<< HEAD
 	public void update(float delta) {
 		System.out.println(this.getState());
 		if (this.getState() == State.FALLING){
@@ -53,6 +69,12 @@ public class Bola extends GameObject implements Collidable {
 			
 			}
 			position.add(velocity.cpy().scl(delta));
+=======
+		velocity.add(acceleration.cpy().scl(delta));
+
+		if (velocity.y > 20) {
+			velocity.y = 20;
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 		}
 		
 
@@ -63,6 +85,7 @@ public class Bola extends GameObject implements Collidable {
 
 	}
 
+<<<<<<< HEAD
 	public void touchDown() {
 		Rectangle leftSide;
 		Rectangle rightSide;
@@ -82,6 +105,22 @@ public class Bola extends GameObject implements Collidable {
 			position.x = position.x + 2f;
 		}
 
+=======
+	public void onClick() {
+		Rectangle leftSide;
+		Rectangle rightSide;
+		
+		leftSide = new Rectangle (0, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+		rightSide = new Rectangle ( Gdx.graphics.getWidth()/2, 0,  Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		velocity.y = -100;
+		if (Gdx.input.justTouched()){
+			touchedPoint.set(Gdx.input.getX(), Gdx.input.getY());
+			if(leftSide.contains(touchedPoint)){position.x = position.x - 3f;}
+			else if(rightSide.contains(touchedPoint)){position.x = position.x + 3f;}
+		}
+		
+>>>>>>> 295e2ce06a8c31ade243afd3cf688f18f47747d6
 	}
 
 	public float getX() {
