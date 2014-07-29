@@ -59,19 +59,13 @@ public class GameWorld {
 	}
 
 	private void checkCollitions() {
+		checkSpikesCollitions();
+		checkBarraCollitions();
+	}
 
-		Rectangle bolaHitbox = bola.getHitbox();
-		Rectangle topSpikesHitbox = topSpikes.getHitbox();
-		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
-
-		// Collides with bottom
-		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y)                                  
-			bola.onCollide(); 
-
-		// Collides with top
-		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= bolaHitbox.y)                                  
-			bola.onCollide(); 
-
+	private void checkBarraCollitions() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public Bola getBola(){
@@ -88,6 +82,19 @@ public class GameWorld {
 
 	public List<GameObject> getObjectsPool(){
 		return gameObjectsPool;
+	}
+	
+	private void checkSpikesCollitions(){
+		
+		Rectangle bolaHitbox = bola.getHitbox();
+		Rectangle topSpikesHitbox = topSpikes.getHitbox();
+		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
+
+		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y)                                  
+			bola.onCollide(); 
+
+		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= bolaHitbox.y)                                  
+			bola.onCollide(); 
 	}
 
 }

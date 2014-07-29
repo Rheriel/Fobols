@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.na76.flapmyballs.gameworld.GameWorld;
 import com.na76.flapmyballs.handlers.AssetLoader;
 import com.na76.flapmyballs.interfaces.Collidable;
 import com.na76.flapmyballs.interfaces.GameObject;
+import com.na76.flapmyballs.screens.GameScreen;
 
 public class Bola extends GameObject implements Collidable {
 
@@ -59,6 +61,9 @@ public class Bola extends GameObject implements Collidable {
 		hitbox.y = position.y;
 		hitbox.x = position.x;
 		
+		if (this.position.x + this.width < 0) this.position.x = GameScreen.GAME_WIDTH;
+		if (this.position.x > GameScreen.GAME_WIDTH) this.position.x = 0 - this.width;
+		
 		stateTime += delta;
 
 	}
@@ -86,6 +91,10 @@ public class Bola extends GameObject implements Collidable {
 
 	public float getX() {
 		return position.x;
+	}
+	
+	public void setX(float newX) {
+		this.position.x = newX;
 	}
 
 	public float getY() {
@@ -158,6 +167,7 @@ public class Bola extends GameObject implements Collidable {
 			this.state = State.IDLE;
 		}
 	}
+
 
 }
 
