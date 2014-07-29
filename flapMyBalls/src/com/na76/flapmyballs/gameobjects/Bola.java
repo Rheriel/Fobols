@@ -8,12 +8,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.na76.flapmyballs.gameworld.GameWorld;
 import com.na76.flapmyballs.handlers.AssetLoader;
 import com.na76.flapmyballs.interfaces.Collidable;
-import com.na76.flapmyballs.interfaces.GameObject;
 import com.na76.flapmyballs.screens.GameScreen;
 
 public class Bola extends GameObject implements Collidable {
 
 	public static final float STARTING_X = 33;
+
+	public static final float BOLA_FALLING_VELOCITY = 20;
 
 	private Vector2 position;
 	private Vector2 velocity;
@@ -50,8 +51,8 @@ public class Bola extends GameObject implements Collidable {
 			
 			velocity.add(acceleration.cpy().scl(delta));
 			
-			if (velocity.y > 20) {
-				velocity.y = 20;
+			if (velocity.y > BOLA_FALLING_VELOCITY) {
+				velocity.y = BOLA_FALLING_VELOCITY;
 			
 			}
 			position.add(velocity.cpy().scl(delta));

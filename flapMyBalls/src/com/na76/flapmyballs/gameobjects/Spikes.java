@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.na76.flapmyballs.interfaces.Collidable;
-import com.na76.flapmyballs.interfaces.GameObject;
 
 public class Spikes extends GameObject implements Collidable {
 

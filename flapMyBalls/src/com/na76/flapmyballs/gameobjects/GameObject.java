@@ -1,4 +1,4 @@
-package com.na76.flapmyballs.interfaces;
+package com.na76.flapmyballs.gameobjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

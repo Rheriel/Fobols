@@ -56,6 +56,7 @@ public class AssetLoader {
 	
 	public static AtlasRegion flippedSpike;
 
+	public static Texture platform;
 	
 
 	public static void load() {
@@ -71,6 +72,8 @@ public class AssetLoader {
 		flippedSpike = itemAtlas.findRegion("spikes_bottom");
 		
 		flippedSpike.flip(false, true);
+		
+		platform = new Texture(Gdx.files.internal("data/Tiles/stoneHalf.png"));
 
 		dudeAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1_walk/Pack/dudeWalk.atlas"), true);
 

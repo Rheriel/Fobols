@@ -6,12 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.na76.flapmyballs.gameobjects.GameObject;
+import com.na76.flapmyballs.gameobjects.Platform;
 import com.na76.flapmyballs.gameobjects.Spikes;
 import com.na76.flapmyballs.handlers.AssetLoader;
-import com.na76.flapmyballs.interfaces.GameObject;
 
 public class GameRenderer {
 
@@ -51,10 +53,13 @@ public class GameRenderer {
 		// Draws everything
 		List<GameObject> gameObjects = myWorld.getObjectsPool();
 		
+		drawPlatform();
+		
 		for (GameObject gameObject : gameObjects) {
 			gameObject.draw(batcher);
 			gameObject.drawBounds(shapeRenderer);
 		}
+		
 
 	}
 	
@@ -86,6 +91,16 @@ public class GameRenderer {
 		shapeRenderer.rect(bottomBounds.x, bottomBounds.y, bottomBounds.width, bottomBounds.height);
 		
 		shapeRenderer.end();
+	}
+	
+	private void drawPlatform(){
+		int len = myWorld.platforms.size();
+		for (int i = 0; i < len; i++) {
+			Platform platform = myWorld.platforms.get(i);
+			batcher.begin();
+			batcher.draw(platform.getTexture(), platform.getX() - 1, platform.getY() - 0.25f, 2, 0.5f);
+			batcher.end();
+		}
 	}
 	
 }
