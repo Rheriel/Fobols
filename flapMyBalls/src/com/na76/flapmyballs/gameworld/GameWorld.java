@@ -114,13 +114,14 @@ public class GameWorld {
 	}
 
 	private void generateLevel () {
-		float y = Platform.PLATFORM_HEIGHT / 2;
+		float maxPlatformVerticalSeparation = bola.getHeight() - 5;
+		float maxPlatformHorizontalSeparation = bola.getWidth() + 5;
 		float maxBolaVelocity = Bola.BOLA_FALLING_VELOCITY * Bola.BOLA_FALLING_VELOCITY / (2 * -gravity.y);
 
-		while (y < GameScreen.GAME_HEIGHT - GameScreen.GAME_WIDTH / 2) {
-			float x = rand.nextFloat() * (GameScreen.GAME_WIDTH - Platform.PLATFORM_WIDTH) + Platform.PLATFORM_WIDTH / 2;
+		while (maxPlatformVerticalSeparation < GameScreen.GAME_HEIGHT - GameScreen.GAME_WIDTH / 2) {
+			float x = rand.nextFloat() * (GameScreen.GAME_WIDTH - maxPlatformHorizontalSeparation) + maxPlatformHorizontalSeparation / 2;
 
-			Platform platform = new Platform(x, y);
+			Platform platform = new Platform(x, maxPlatformVerticalSeparation);
 			platforms.add(platform);
 
 			// TODO Change for spiked bar
@@ -130,8 +131,8 @@ public class GameWorld {
 			//				springs.add(spring);
 			//			}
 
-			y += (maxBolaVelocity - 0.5f);
-			y -= rand.nextFloat() * (maxBolaVelocity / 3);
+			maxPlatformVerticalSeparation += (maxBolaVelocity - 0.5f);
+			maxPlatformVerticalSeparation -= rand.nextFloat() * (maxBolaVelocity / 3);
 		}
 	}
 

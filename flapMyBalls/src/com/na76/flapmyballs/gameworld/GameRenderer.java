@@ -94,9 +94,7 @@ public class GameRenderer {
 		int len = myWorld.platforms.size();
 		for (int i = 0; i < len; i++) {
 			Platform platform = myWorld.platforms.get(i);
-			batcher.begin();
-			batcher.draw(platform.getTexture(), platform.getX() - 1, platform.getY() - 0.25f, 2, 0.5f);
-			batcher.end();
+			platform.draw(batcher);
 		}
 	}
 	
