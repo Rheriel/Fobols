@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.na76.flapmyballs.gameobjects.Spikes;
 
 public class AssetLoader {
 
@@ -14,13 +15,10 @@ public class AssetLoader {
 
 	public static final float RUNNING_FRAME_DURATION = 0.06f;
 
-	public static TextureAtlas itemAtlas;
+	public static TextureAtlas textureAtlas;
 	
 	
 	/* Animation */
-
-	public static TextureAtlas dudeAtlas;
-	
 
 	public static Animation	dudeAnimation;
 
@@ -56,32 +54,25 @@ public class AssetLoader {
 	
 	public static AtlasRegion flippedSpike;
 
-	public static Texture platform;
-	
+	public static AtlasRegion platform;
 
 	public static void load() {
 
-		backGround = new Texture(Gdx.files.internal("data/bg.png"));
+		backGround = new Texture(Gdx.files.internal("bg.png"));
+		
+		textureAtlas = new TextureAtlas(Gdx.files.internal("images/gameTextures.atlas"));
 
-		itemAtlas = new TextureAtlas(Gdx.files.internal("data/Items/Atlas/items.txt"));
-		
-		spike = itemAtlas.findRegion("spikes_top");
-		
-		spikeSprite = new Sprite(spike);
-		
-		flippedSpike = itemAtlas.findRegion("spikes_bottom");
-		
-		flippedSpike.flip(false, true);
-		
-		platform = new Texture(Gdx.files.internal("data/Tiles/stoneHalf.png"));
+		spike = textureAtlas.findRegion("spikes");
 
-		dudeAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1_walk/Pack/dudeWalk.atlas"), true);
-
-		dudeIdleLeft = dudeAtlas.findRegion("p1_walk01");
+		flippedSpike = new AtlasRegion(spike);
 		
-		// TODO Refactor to put every char texture on a single TextureAtlas.
-		dudeFallingAtlas = new TextureAtlas(Gdx.files.internal("data/Player/p1.txt"));
-		dudeFallingLeft = dudeFallingAtlas.findRegion("p1_jump");
+		flippedSpike.flip(true, true);
+		
+		platform = textureAtlas.findRegion("stoneHalf");
+
+		dudeIdleLeft = textureAtlas.findRegion("p1_walk01");
+		
+		dudeFallingLeft = textureAtlas.findRegion("p1_jump");
 		dudeFallingLeft.flip(false, true); // TODO Image is flipped in Atlas, fix it.
 		dudeFallingRight = new TextureRegion(dudeFallingLeft);
 		dudeFallingLeft.flip(true, false); // TODO Image is flipped in Atlas, fix it.
@@ -105,12 +96,13 @@ public class AssetLoader {
 			}
 			System.out.println(region);
 			
-			dudeWalkRightFrames[i] = dudeAtlas.findRegion(region);
+			dudeWalkRightFrames[i] = textureAtlas.findRegion(region);
 		}
 
 		dudeWalkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkLeftFrames);
 
 		for (int i = 0; i < 11; i++) {
+			dudeWalkRightFrames[i].flip(false, true);
 			dudeWalkLeftFrames[i] = new TextureRegion(dudeWalkRightFrames[i]);
 			dudeWalkLeftFrames[i].flip(true, false);
 		}
@@ -122,8 +114,7 @@ public class AssetLoader {
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.
 		backGround.dispose();
-		itemAtlas.dispose();
-		dudeAtlas.dispose();
+		textureAtlas.dispose();
 	}
 
 }

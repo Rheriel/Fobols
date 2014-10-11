@@ -2,6 +2,7 @@ package com.na76.flapmyballs.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +17,7 @@ public class Platform extends GameObject implements Collidable {
 	public static final float PLATFORM_VELOCITY = 2;
 	private Vector2 position;
 	private Vector2 velocity;
-	private Texture texture;
+	private AtlasRegion texture;
 
 
 	float stateTime;
@@ -72,11 +73,11 @@ public class Platform extends GameObject implements Collidable {
 		return position.y;
 	}
 	
-	public void setTexture(Texture texture){
+	public void setTexture(AtlasRegion texture){
 		this.texture = texture;
 	}
 
-	public Texture getTexture() {
+	public AtlasRegion getTexture() {
 		return texture;
 	}
 

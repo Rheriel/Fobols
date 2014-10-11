@@ -36,11 +36,11 @@ public class GameWorld {
 
 		bola = new Bola(Bola.STARTING_X, midPointY - 5,BOLA_WIDTH, BOLA_HEIGHT);
 
-		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 2;
-		int topSpikesHeight = AssetLoader.spike.getRegionHeight() / 2;
+		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 3;
+		int topSpikesHeight = AssetLoader.spike.getRegionHeight() / 3;
 
-		int bottomSpikesWidth = AssetLoader.flippedSpike.getRegionWidth() / 2;
-		int bottomSpikesHeight = AssetLoader.flippedSpike.getRegionHeight() / 2;
+		int bottomSpikesWidth = AssetLoader.flippedSpike.getRegionWidth() / 3;
+		int bottomSpikesHeight = AssetLoader.flippedSpike.getRegionHeight() / 3;
 
 		topSpikes = new Spikes(0, 0,topSpikesWidth ,topSpikesHeight , AssetLoader.spike);
 		bottomSpikes = new Spikes(0, GameScreen.GAME_HEIGHT - bottomSpikesHeight , bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.flippedSpike);

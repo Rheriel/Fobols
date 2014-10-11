@@ -3,7 +3,6 @@ package com.na76.flapmyballs.gameworld;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -43,7 +42,6 @@ public class GameRenderer {
 
 		// We draw a black background. This prevents flickering.
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		AssetLoader.stateTime += Gdx.graphics.getDeltaTime();
 

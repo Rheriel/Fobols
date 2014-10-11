@@ -1,0 +1,48 @@
+
+textures.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bg
+  rotate: false
+  xy: 1740, 1678
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+bg_castle
+  rotate: false
+  xy: 516, 258
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+libgdx
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+preview
+  rotate: false
+  xy: 856, 1299
+  size: 882, 635
+  orig: 882, 635
+  offset: 0, 0
+  index: -1
+sample
+  rotate: false
+  xy: 2, 516
+  size: 770, 560
+  orig: 770, 560
+  offset: 0, 0
+  index: -1
+tiles_spritesheet
+  rotate: false
+  xy: 2, 1078
+  size: 852, 856
+  orig: 852, 856
+  offset: 0, 0
+  index: -1
