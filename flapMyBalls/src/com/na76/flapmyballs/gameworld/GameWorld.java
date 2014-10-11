@@ -45,9 +45,8 @@ public class GameWorld {
 		topSpikes = new Spikes(0, 0,topSpikesWidth ,topSpikesHeight , AssetLoader.spike);
 		bottomSpikes = new Spikes(0, GameScreen.GAME_HEIGHT - bottomSpikesHeight , bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.flippedSpike);
 
-		topSpikes.setNewBounds(0,0, GameScreen.GAME_WIDTH, topSpikes.getHeight());
-		bottomSpikes.setNewBounds(0,GameScreen.GAME_HEIGHT - topSpikes.getHeight(), GameScreen.GAME_WIDTH, topSpikes.getHeight());
-
+		topSpikes.setNewBounds(0,0, GameScreen.GAME_WIDTH, topSpikesHeight / 2);
+		bottomSpikes.setNewBounds(0,GameScreen.GAME_HEIGHT - (bottomSpikesHeight / 2), GameScreen.GAME_WIDTH, bottomSpikesHeight / 2);
 		rand = new Random();
 
 		gameObjectsPool = new ArrayList<GameObject>();
@@ -110,7 +109,7 @@ public class GameWorld {
 		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y)                                  
 			bola.onCollide(); 
 
-		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= bolaHitbox.y)                                  
+		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2))                                  
 			bola.onCollide(); 
 	}
 

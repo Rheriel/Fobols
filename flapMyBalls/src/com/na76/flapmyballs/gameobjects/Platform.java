@@ -12,8 +12,8 @@ import com.na76.flapmyballs.screens.GameScreen;
 
 public class Platform extends GameObject implements Collidable {
 
-	public static final float PLATFORM_WIDTH = 2;
-	public static final float PLATFORM_HEIGHT = 0.5f;
+	public static final float PLATFORM_WIDTH = 20;
+	public static final float PLATFORM_HEIGHT = 5.5f;
 	public static final float PLATFORM_VELOCITY = 2;
 	private Vector2 position;
 	private Vector2 velocity;
