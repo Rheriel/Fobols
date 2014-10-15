@@ -55,13 +55,13 @@ public class GameWorld {
 		gameObjectsPool.add(bola);
 
 		worldBounds = new Rectangle(0 + 1, GameScreen.GAME_HEIGHT - 1, GameScreen.GAME_WIDTH - 1, 0 + 1);
-		
+
 		generateLevel();
 	}
-	
+
 	private void generateLevel(){
 		int numberOfPlatformsPerScreen = (int) (GameScreen.GAME_HEIGHT / bola.getHeight());
-		
+
 		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
 			Platform platform = createRandomPlatform();
 			platform.setY(GameScreen.GAME_HEIGHT + (bola.getHeight() * i));
@@ -85,7 +85,7 @@ public class GameWorld {
 			} else {
 				cleanUpPlatform(platform);
 			}
-			
+
 			if (platform.getY() + platform.getHeight() <= 0){
 				platform.isVisible = false;
 			}
@@ -123,18 +123,22 @@ public class GameWorld {
 	}
 
 	private void checkPlatformCollitions() {
+		
+		bola.isCollidingWithPlatform = false;
+		
 		for (Platform platform : platforms) {
-			Rectangle platformHitbox = platform.getHitbox();
-			Rectangle bolaHitbox = bola.getHitbox();
-			
-			if(platformHitbox.y - platformHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
-				bola.isCollidingWithPlatform = true;
-				bola.collideWithPlatform(platform);
-			}
-			else {
-				bola.isCollidingWithPlatform = false;
+			if (platform.isVisible) {
+				Rectangle bolaHitbox = bola.getHitbox();
+
+				if((platform.getY() + bolaHitbox.getHeight()) <= (bolaHitbox.y + bolaHitbox.getHeight()) &&
+						((platform.getX() <= (bolaHitbox.x + bolaHitbox.getWidth())) &&
+								((platform.getX() + platform.getWidth()) >= (bolaHitbox.x)))){                                
+					bola.collideWithPlatform(platform);
+				} 
 			}
 		}
+		
+		bola.onCollide();
 	}
 
 	public Bola getBola(){

@@ -145,7 +145,9 @@ public class Bola extends GameObject implements Collidable {
 	}
 	
 	public void collideWithPlatform(Platform platform){
+		isCollidingWithPlatform = true;
 		this.position.y = platform.getY();
+		onCollide();
 	}
 
 	public void draw(SpriteBatch batcher){

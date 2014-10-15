@@ -68,7 +68,8 @@ public class AssetLoader {
 		
 		flippedSpike.flip(true, true);
 		
-		platform = textureAtlas.findRegion("stoneHalf");
+		platform = textureAtlas.findRegion("sandCenter_rounded");
+		platform.flip(false, true);
 
 		dudeIdleLeft = textureAtlas.findRegion("p1_walk01");
 		
