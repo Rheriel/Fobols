@@ -95,6 +95,7 @@ public class GameRenderer {
 		for (int i = 0; i < len; i++) {
 			Platform platform = myWorld.platforms.get(i);
 			platform.draw(batcher);
+			platform.drawBounds(shapeRenderer);
 		}
 	}
 	

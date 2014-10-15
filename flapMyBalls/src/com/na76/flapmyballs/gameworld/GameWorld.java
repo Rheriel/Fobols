@@ -19,10 +19,10 @@ public class GameWorld {
 	public static final int BOLA_WIDTH = 22;
 	public static final int BOLA_HEIGHT = 26;
 
-
 	private Bola bola;
 	private Spikes topSpikes;
 	private Spikes bottomSpikes;
+	private float lastPlatformXPosition = 0f;
 	public List<Platform> platforms;
 
 	public final Random rand;
@@ -55,7 +55,18 @@ public class GameWorld {
 		gameObjectsPool.add(bola);
 
 		worldBounds = new Rectangle(0 + 1, GameScreen.GAME_HEIGHT - 1, GameScreen.GAME_WIDTH - 1, 0 + 1);
+		
 		generateLevel();
+	}
+	
+	private void generateLevel(){
+		int numberOfPlatformsPerScreen = (int) (GameScreen.GAME_HEIGHT / bola.getHeight());
+		
+		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
+			Platform platform = createRandomPlatform();
+			platform.setY(GameScreen.GAME_HEIGHT + (bola.getHeight() * i));
+			platforms.add(platform);
+		}
 	}
 
 	public void update(float delta) {
@@ -67,11 +78,43 @@ public class GameWorld {
 	}
 
 	private void updatePlatforms(float delta){
-		int len = platforms.size();
-		for (int i = 0; i < len; i++) {
-			Platform platform = platforms.get(i);
-			platform.update(delta);
+
+		for (Platform platform : platforms) {
+			if(platform.isVisible){
+				platform.update(delta);
+			} else {
+				cleanUpPlatform(platform);
+			}
+			
+			if (platform.getY() + platform.getHeight() <= 0){
+				platform.isVisible = false;
+			}
 		}
+
+	}
+
+	private Platform createRandomPlatform(){
+
+		float positionX = generatePlatformRandomXPosition();
+
+		if ((lastPlatformXPosition - positionX) < (bola.getWidth() + (bola.getWidth() / 2))) {
+			positionX += bola.getWidth();
+			lastPlatformXPosition = positionX;
+		}
+
+		Platform platform = new Platform(positionX, GameScreen.GAME_HEIGHT);
+		return platform;
+
+	}
+
+	private void cleanUpPlatform(Platform platform) {
+		platform.setX(generatePlatformRandomXPosition());
+		platform.setY(GameScreen.GAME_HEIGHT);
+		platform.isVisible = true;
+	}
+
+	private float generatePlatformRandomXPosition(){
+		return (float)Math.random() * GameScreen.GAME_WIDTH;
 	}
 
 	private void checkCollitions() {
@@ -80,8 +123,18 @@ public class GameWorld {
 	}
 
 	private void checkPlatformCollitions() {
-		// TODO Auto-generated method stub
-
+		for (Platform platform : platforms) {
+			Rectangle platformHitbox = platform.getHitbox();
+			Rectangle bolaHitbox = bola.getHitbox();
+			
+			if(platformHitbox.y - platformHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
+				bola.isCollidingWithPlatform = true;
+				bola.collideWithPlatform(platform);
+			}
+			else {
+				bola.isCollidingWithPlatform = false;
+			}
+		}
 	}
 
 	public Bola getBola(){
@@ -111,29 +164,6 @@ public class GameWorld {
 
 		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2))                                  
 			bola.onCollide(); 
-	}
-
-	private void generateLevel () {
-		float maxPlatformVerticalSeparation = bola.getHeight() - 5;
-		float maxPlatformHorizontalSeparation = bola.getWidth() + 5;
-		float maxBolaVelocity = Bola.BOLA_FALLING_VELOCITY * Bola.BOLA_FALLING_VELOCITY / (2 * -gravity.y);
-
-		while (maxPlatformVerticalSeparation < GameScreen.GAME_HEIGHT - GameScreen.GAME_WIDTH / 2) {
-			float x = rand.nextFloat() * (GameScreen.GAME_WIDTH - maxPlatformHorizontalSeparation) + maxPlatformHorizontalSeparation / 2;
-
-			Platform platform = new Platform(x, maxPlatformVerticalSeparation);
-			platforms.add(platform);
-
-			// TODO Change for spiked bar
-			//			if (rand.nextFloat() > 0.9f) {
-			//				Spring spring = new Spring(platform.position.x, platform.position.y + Platform.PLATFORM_HEIGHT / 2
-			//					+ Spring.SPRING_HEIGHT / 2);
-			//				springs.add(spring);
-			//			}
-
-			maxPlatformVerticalSeparation += (maxBolaVelocity - 0.5f);
-			maxPlatformVerticalSeparation -= rand.nextFloat() * (maxBolaVelocity / 3);
-		}
 	}
 
 }

@@ -17,6 +17,7 @@ public class GameScreen implements Screen {
 	public static final float GAME_WIDTH = 136;
 	public static final float GAME_HEIGHT = SCREEN_HEIGHT  / (SCREEN_WIDTH / GAME_WIDTH);
 	public static final int GAME_MID_POINT_Y = (int) (GAME_HEIGHT / 2);
+	public static final float GAME_VELOCITY = 20;
 	
 	public GameScreen(){
 		

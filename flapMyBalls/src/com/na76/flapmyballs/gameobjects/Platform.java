@@ -10,24 +10,25 @@ import com.na76.flapmyballs.screens.GameScreen;
 
 public class Platform extends GameObject implements Collidable {
 
-	public static final float PLATFORM_VELOCITY = 2;
 	private static final int PLATFORM_SCALE = 3;
 	private Vector2 position;
 	private Vector2 velocity;
 	private AtlasRegion texture;
 	private float width;
 	private float height;
+	public boolean isVisible = true;
 
 	float stateTime;
 
 	public Platform(float x, float y){
 		position = new Vector2(x, y);
-		velocity = new Vector2(0, PLATFORM_VELOCITY);
+		velocity = new Vector2(0, GameScreen.GAME_VELOCITY);
 		this.stateTime = 0;
 		this.texture = AssetLoader.platform;
-		this.setWidth(texture.getRegionWidth() / PLATFORM_SCALE);
-		this.setHeight(texture.getRegionHeight() / PLATFORM_SCALE);
-		hitbox = new Rectangle(this.position.x, this.position.y, this.getWidth(), this.getHeight());
+		this.width = texture.getRegionWidth() / PLATFORM_SCALE;
+		this.height = texture.getRegionHeight() / PLATFORM_SCALE;
+		
+		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
 	}
 
 	@Override
@@ -37,19 +38,9 @@ public class Platform extends GameObject implements Collidable {
 	@Override
 	public void update(float delta) {
 		
-		position.add(velocity.x * delta, 0);
-		hitbox.x = position.x - this.getWidth() / 2;
-		hitbox.y = position.y - this.getHeight() / 2;
-
-		if (position.x < this.getWidth() / 2) {
-			velocity.x = -velocity.x;
-			position.x = this.getWidth() / 2;
-		}
-		if (position.x > GameScreen.GAME_WIDTH - this.getWidth() / 2) {
-			velocity.x = -velocity.x;
-			position.x = GameScreen.GAME_HEIGHT - this.getWidth() / 2;
-		}
-
+		position.sub(0, velocity.y * delta);
+		hitbox.x = position.x;
+		hitbox.y = position.y;
 		stateTime += delta;
 		
 	}
@@ -62,15 +53,21 @@ public class Platform extends GameObject implements Collidable {
 	}
 	
 	public float getX() {
-		return position.x;
+		return this.position.x;
 	}
 	
 	public void setX(float newX) {
 		this.position.x = newX;
+		this.hitbox.x = newX;
 	}
 
 	public float getY() {
-		return position.y;
+		return this.position.y;
+	}
+	
+	public void setY(float newY) {
+		this.position.y = newY;
+		this.hitbox.y = newY;
 	}
 	
 	public void setTexture(AtlasRegion texture){
@@ -78,23 +75,25 @@ public class Platform extends GameObject implements Collidable {
 	}
 
 	public AtlasRegion getTexture() {
-		return texture;
+		return this.texture;
 	}
 
 	public float getWidth() {
-		return width;
+		return this.width;
 	}
 
 	public void setWidth(float width) {
 		this.width = width;
+		this.hitbox.width = width;
 	}
 
 	public float getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public void setHeight(float height) {
 		this.height = height;
+		this.hitbox.height = height;
 	}
 
 }
