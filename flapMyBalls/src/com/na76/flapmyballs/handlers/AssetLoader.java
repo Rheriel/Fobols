@@ -55,6 +55,8 @@ public class AssetLoader {
 	public static AtlasRegion flippedSpike;
 
 	public static AtlasRegion platform;
+	
+	public static AtlasRegion dudeDead;
 
 	public static void load() {
 
@@ -109,6 +111,8 @@ public class AssetLoader {
 		}
 
 		dudeWalkRightAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkRightFrames);
+		
+		dudeDead = textureAtlas.findRegion("p1_hurt");
 
 	}
 

@@ -10,8 +10,6 @@ import com.na76.flapmyballs.screens.GameScreen;
 
 public class Bola extends GameObject implements Collidable {
 
-	public static final float STARTING_X = 33;
-
 	public static final float BOLA_FALLING_VELOCITY = 20;
 
 	private Vector2 position;
@@ -35,6 +33,8 @@ public class Bola extends GameObject implements Collidable {
 	public boolean isCollidingWithPlatform = false;
 	public boolean isCollidingWithSpikes = false;
 
+	private boolean isAlive = true;
+
 	public Bola (float x, float y, int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -48,23 +48,25 @@ public class Bola extends GameObject implements Collidable {
 
 	public void update(float delta) {
 		System.out.println(this.getState());
-		if (this.getState() == State.FALLING){
-			
-			velocity.add(acceleration.cpy().scl(delta));
-			
-			if (velocity.y > BOLA_FALLING_VELOCITY) {
-				velocity.y = BOLA_FALLING_VELOCITY;
-			
-			}
-			position.add(velocity.cpy().scl(delta));
-		} 
-		
-		hitbox.y = position.y;
-		hitbox.x = position.x;
-		
-		if (this.position.x + this.width < 0) this.position.x = GameScreen.GAME_WIDTH;
-		if (this.position.x > GameScreen.GAME_WIDTH) this.position.x = 0 - this.width;
-		
+
+		if (isAlive){
+			if (this.getState() == State.FALLING){
+
+				velocity.add(acceleration.cpy().scl(delta));
+
+				if (velocity.y > BOLA_FALLING_VELOCITY) {
+					velocity.y = BOLA_FALLING_VELOCITY;
+
+				}
+				position.add(velocity.cpy().scl(delta));
+			} 
+
+			hitbox.y = position.y;
+			hitbox.x = position.x;
+
+			if (this.position.x + this.width < 0) this.position.x = GameScreen.GAME_WIDTH;
+			if (this.position.x > GameScreen.GAME_WIDTH) this.position.x = 0 - this.width;
+		}	
 		stateTime += delta;
 
 	}
@@ -93,7 +95,7 @@ public class Bola extends GameObject implements Collidable {
 	public float getX() {
 		return position.x;
 	}
-	
+
 	public void setX(float newX) {
 		this.position.x = newX;
 	}
@@ -133,7 +135,7 @@ public class Bola extends GameObject implements Collidable {
 
 	@Override
 	public void onCollide() {
-		
+
 		if (isCollidingWithSpikes ){
 			System.out.println("Colliding with spikes");
 			state = State.IDLE;
@@ -152,17 +154,18 @@ public class Bola extends GameObject implements Collidable {
 			}
 		}
 	}
-	
+
 	public void collideWithPlatform(Platform platform){
 		if(isCollidingWithSpikes == false){
 			isCollidingWithPlatform = true;
 			this.position.y = platform.hitbox.y - (float)this.height;
 			onCollide();
-			}
+		}
 	}
-	
+
 	public void collideWithSpikes(){
 		isCollidingWithSpikes = true;
+		isAlive = false;
 		onCollide();
 	}
 
@@ -171,11 +174,14 @@ public class Bola extends GameObject implements Collidable {
 		if (this.state == State.FALLING){
 			AssetLoader.currentDudeFrame = this.isFacingLeft() ? AssetLoader.dudeFallingLeft : AssetLoader.dudeFallingRight;
 		}
-		
-		if (Gdx.input.isTouched()) {
+		if (this.state == State.DYING){
+			AssetLoader.currentDudeFrame = AssetLoader.dudeDead;
+		}
+
+		if (isAlive && Gdx.input.isTouched()) {
 
 			this.touchDown();
-			
+
 			if (this.getState() == State.IDLE) {
 				this.setState(State.WALKING);
 				while (AssetLoader.stateTime > AssetLoader.RUNNING_FRAME_DURATION) {
@@ -191,9 +197,26 @@ public class Bola extends GameObject implements Collidable {
 	}
 
 	public void touchUp() {
-		if (this.state == State.WALKING){
-			this.state = State.IDLE;
+		if (isAlive) {
+			if (this.state == State.WALKING){
+				this.state = State.IDLE;
+			}
 		}
+	}
+
+	public void onRestart(int x, int y) {
+		this.state = State.FALLING;
+		position.y = y;
+		position.x = x;
+		velocity.x = 0;
+		hitbox.y = y;
+		hitbox.x = x;
+		velocity.y = 0;
+		acceleration.x = 0;
+		acceleration.y = 460;
+		isAlive = true;
+		isCollidingWithPlatform = false;
+		isCollidingWithSpikes = false;
 	}
 
 }

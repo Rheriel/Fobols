@@ -2,13 +2,16 @@ package com.na76.flapmyballs.handlers;
 
 import com.badlogic.gdx.InputProcessor;
 import com.na76.flapmyballs.gameobjects.Bola;
+import com.na76.flapmyballs.gameworld.GameWorld;
 
 public class InputHandler implements InputProcessor {
 
 	private Bola myBola;
-	
-	public InputHandler(Bola bola) {
-		myBola = bola;
+	private GameWorld myWorld;
+
+	public InputHandler(GameWorld myWorld) {
+		this.myWorld = myWorld;
+		this.myBola = myWorld.getBola();
 	}
 
 	@Override
@@ -30,7 +33,15 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		myBola.touchDown();
+
+		if (myWorld.isReady()) {
+			myWorld.start();
+		} else if (myWorld.isRunning()) {
+			myBola.touchDown();
+		} else if (myWorld.isGameOver()) {
+			myWorld.restart();
+		} 
+
 		return true; // Return true to say we handled the touch.
 	}
 

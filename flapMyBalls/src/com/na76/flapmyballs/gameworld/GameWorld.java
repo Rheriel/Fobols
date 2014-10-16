@@ -16,9 +16,18 @@ import com.na76.flapmyballs.screens.GameScreen;
 
 public class GameWorld {
 
+	public enum GameState {
+		READY, RUNNING, GAMEOVER
+	}
+
+	private GameState currentState;
+
 	public static final int BOLA_WIDTH = 22;
 	public static final int BOLA_HEIGHT = 26;
-
+	
+	public static final int STARTING_BOLA_X = (int) ((GameScreen.GAME_WIDTH/2) - (BOLA_WIDTH/2));
+	public static final int STARTING_BOLA_Y = (int) ((GameScreen.GAME_HEIGHT/2) - (BOLA_HEIGHT/2));
+	
 	private Bola bola;
 	private Spikes topSpikes;
 	private Spikes bottomSpikes;
@@ -30,11 +39,15 @@ public class GameWorld {
 
 	private Rectangle worldBounds;
 
-	private List<GameObject> gameObjectsPool; 
+	private List<GameObject> gameObjectsPool;
+
+	private int score = 0; 
 
 	public GameWorld(int midPointY){
 
-		bola = new Bola(Bola.STARTING_X, midPointY - 5,BOLA_WIDTH, BOLA_HEIGHT);
+		currentState = GameState.READY;
+		
+		bola = new Bola(STARTING_BOLA_X, STARTING_BOLA_Y,BOLA_WIDTH, BOLA_HEIGHT);
 
 		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 3;
 		int topSpikesHeight = AssetLoader.spike.getRegionHeight() / 3;
@@ -48,18 +61,19 @@ public class GameWorld {
 		topSpikes.setNewBounds(0,0, GameScreen.GAME_WIDTH, topSpikesHeight / 2);
 		bottomSpikes.setNewBounds(0,GameScreen.GAME_HEIGHT - (bottomSpikesHeight / 2), GameScreen.GAME_WIDTH, bottomSpikesHeight / 2);
 		rand = new Random();
-
-		gameObjectsPool = new ArrayList<GameObject>();
-		platforms = new ArrayList<Platform>();
-
-		gameObjectsPool.add(bola);
-
+		
 		worldBounds = new Rectangle(0 + 1, GameScreen.GAME_HEIGHT - 1, GameScreen.GAME_WIDTH - 1, 0 + 1);
 
 		generateLevel();
 	}
 
 	private void generateLevel(){
+		
+		gameObjectsPool = new ArrayList<GameObject>();
+		platforms = new ArrayList<Platform>();
+
+		gameObjectsPool.add(bola);
+
 		int numberOfPlatformsPerScreen = (int) (GameScreen.GAME_HEIGHT / bola.getHeight());
 
 		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
@@ -70,6 +84,25 @@ public class GameWorld {
 	}
 
 	public void update(float delta) {
+
+		switch (currentState) {
+		case READY:
+			updateReady(delta);
+			break;
+
+		case RUNNING:
+		default:
+			updateRunning(delta);
+			break;
+		}
+
+	}
+
+	private void updateReady(float delta) {
+
+	}
+
+	private void updateRunning(float delta) {
 		checkCollitions();
 		for (GameObject gameObject : gameObjectsPool) {
 			gameObject.update(delta);
@@ -123,14 +156,14 @@ public class GameWorld {
 	}
 
 	private void checkPlatformCollitions() {
-		
+
 		bola.isCollidingWithPlatform = false;
-		
+
 		for (Platform platform : platforms) {
 			if (platform.isVisible) {
 				Rectangle bolaHitbox = bola.getHitbox();
-				
-				
+
+
 
 				if(Math.abs(platform.getY() - (bolaHitbox.getY() + (float)bolaHitbox.height)) < 1 &&
 						((platform.getX() <= (bolaHitbox.x + bolaHitbox.getWidth())) &&
@@ -140,7 +173,7 @@ public class GameWorld {
 				} 
 			}
 		}
-		
+
 		bola.onCollide();
 	}
 
@@ -166,11 +199,46 @@ public class GameWorld {
 		Rectangle topSpikesHitbox = topSpikes.getHitbox();
 		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
 
-		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y)                                  
-			bola.collideWithSpikes(); 
+		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y) {                                
+			currentState = GameState.GAMEOVER;
+			bola.collideWithSpikes();
+		}
 
-		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2))                                  
-			bola.collideWithSpikes(); 
+		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
+			currentState = GameState.GAMEOVER;
+			bola.collideWithSpikes();
+		}
+	}
+
+	public boolean isReady(){
+		return currentState == GameState.READY;			
+	}
+	
+	public boolean isGameOver() {
+		return currentState == GameState.GAMEOVER;
+	}
+
+	public void start(){
+		currentState = GameState.RUNNING;
+		generateLevel();
+	}
+	
+	public void restart() {
+		bola.onRestart(STARTING_BOLA_X, STARTING_BOLA_Y);
+		currentState = GameState.READY;
+		score = 0;
+	}
+	
+	public void addScore(int increment){
+		score += increment;
+	}
+	
+	public int getScore(){
+		return this.score;
+	}
+
+	public boolean isRunning() {
+		return currentState == GameState.RUNNING;
 	}
 
 }
