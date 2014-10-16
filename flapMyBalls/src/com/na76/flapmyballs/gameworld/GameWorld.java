@@ -129,10 +129,13 @@ public class GameWorld {
 		for (Platform platform : platforms) {
 			if (platform.isVisible) {
 				Rectangle bolaHitbox = bola.getHitbox();
+				
+				
 
-				if((platform.getY() + bolaHitbox.getHeight()) <= (bolaHitbox.y + bolaHitbox.getHeight()) &&
+				if(Math.abs(platform.getY() - (bolaHitbox.getY() + (float)bolaHitbox.height)) < 1 &&
 						((platform.getX() <= (bolaHitbox.x + bolaHitbox.getWidth())) &&
 								((platform.getX() + platform.getWidth()) >= (bolaHitbox.x)))){                                
+					System.out.println("Collinde detected");
 					bola.collideWithPlatform(platform);
 				} 
 			}
@@ -164,10 +167,10 @@ public class GameWorld {
 		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
 
 		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y)                                  
-			bola.onCollide(); 
+			bola.collideWithSpikes(); 
 
 		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2))                                  
-			bola.onCollide(); 
+			bola.collideWithSpikes(); 
 	}
 
 }

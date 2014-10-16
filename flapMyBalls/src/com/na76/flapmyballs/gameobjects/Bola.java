@@ -33,6 +33,7 @@ public class Bola extends GameObject implements Collidable {
 	float stateTime = 0;
 
 	public boolean isCollidingWithPlatform = false;
+	public boolean isCollidingWithSpikes = false;
 
 	public Bola (float x, float y, int width, int height) {
 		this.width = width;
@@ -133,20 +134,35 @@ public class Bola extends GameObject implements Collidable {
 	@Override
 	public void onCollide() {
 		
-		if (isCollidingWithPlatform ){
-			System.out.println("COLLIDING!");
+		if (isCollidingWithSpikes ){
+			System.out.println("Colliding with spikes");
 			state = State.IDLE;
 			velocity.y = 0;
 			acceleration.y = 0;
-		} else {
-			System.out.println("FALLING!");
-			state = State.FALLING;
+		}else{
+			if (isCollidingWithPlatform ){
+				System.out.println("COLLIDING!");
+				state = State.IDLE;
+				velocity.y = 0;
+				acceleration.y = 0;
+			} else {
+				System.out.println("FALLING!");
+				acceleration.y = 640;
+				state = State.FALLING;
+			}
 		}
 	}
 	
 	public void collideWithPlatform(Platform platform){
-		isCollidingWithPlatform = true;
-		this.position.y = platform.getY();
+		if(isCollidingWithSpikes == false){
+			isCollidingWithPlatform = true;
+			this.position.y = platform.hitbox.y - (float)this.height;
+			onCollide();
+			}
+	}
+	
+	public void collideWithSpikes(){
+		isCollidingWithSpikes = true;
 		onCollide();
 	}
 
