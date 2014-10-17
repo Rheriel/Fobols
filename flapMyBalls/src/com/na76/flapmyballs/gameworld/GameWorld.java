@@ -11,7 +11,7 @@ import com.na76.flapmyballs.gameobjects.GameObject;
 import com.na76.flapmyballs.gameobjects.Platform;
 import com.na76.flapmyballs.gameobjects.Spikes;
 import com.na76.flapmyballs.handlers.AssetLoader;
-import com.na76.flapmyballs.screens.GameScreen;
+import com.na76.flapmyballs.constants.GameConstants;
 
 
 public class GameWorld {
@@ -25,8 +25,8 @@ public class GameWorld {
 	public static final int BOLA_WIDTH = 22;
 	public static final int BOLA_HEIGHT = 26;
 	
-	public static final int STARTING_BOLA_X = (int) ((GameScreen.GAME_WIDTH/2) - (BOLA_WIDTH/2));
-	public static final int STARTING_BOLA_Y = (int) ((GameScreen.GAME_HEIGHT/2) - (BOLA_HEIGHT/2));
+	public static final int STARTING_BOLA_X = (int) ((GameConstants.GAME_WIDTH/2) - (BOLA_WIDTH/2));
+	public static final int STARTING_BOLA_Y = (int) ((GameConstants.GAME_HEIGHT/2) - (BOLA_HEIGHT/2));
 	
 	private Bola bola;
 	private Spikes topSpikes;
@@ -56,13 +56,13 @@ public class GameWorld {
 		int bottomSpikesHeight = AssetLoader.flippedSpike.getRegionHeight() / 3;
 
 		topSpikes = new Spikes(0, 0,topSpikesWidth ,topSpikesHeight , AssetLoader.spike);
-		bottomSpikes = new Spikes(0, GameScreen.GAME_HEIGHT - bottomSpikesHeight , bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.flippedSpike);
+		bottomSpikes = new Spikes(0, GameConstants.GAME_HEIGHT - bottomSpikesHeight , bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.flippedSpike);
 
-		topSpikes.setNewBounds(0,0, GameScreen.GAME_WIDTH, topSpikesHeight / 2);
-		bottomSpikes.setNewBounds(0,GameScreen.GAME_HEIGHT - (bottomSpikesHeight / 2), GameScreen.GAME_WIDTH, bottomSpikesHeight / 2);
+		topSpikes.setNewBounds(0,0, GameConstants.GAME_WIDTH, topSpikesHeight / 2);
+		bottomSpikes.setNewBounds(0,GameConstants.GAME_HEIGHT - (bottomSpikesHeight / 2), GameConstants.GAME_WIDTH, bottomSpikesHeight / 2);
 		rand = new Random();
 		
-		worldBounds = new Rectangle(0 + 1, GameScreen.GAME_HEIGHT - 1, GameScreen.GAME_WIDTH - 1, 0 + 1);
+		worldBounds = new Rectangle(0 + 1, GameConstants.GAME_HEIGHT - 1, GameConstants.GAME_WIDTH - 1, 0 + 1);
 
 		generateLevel();
 	}
@@ -74,11 +74,11 @@ public class GameWorld {
 
 		gameObjectsPool.add(bola);
 
-		int numberOfPlatformsPerScreen = (int) (GameScreen.GAME_HEIGHT / bola.getHeight());
+		int numberOfPlatformsPerScreen = (int) (GameConstants.GAME_HEIGHT / bola.getHeight());
 
 		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
 			Platform platform = createRandomPlatform();
-			platform.setY(GameScreen.GAME_HEIGHT + (bola.getHeight() * i));
+			platform.setY(GameConstants.GAME_HEIGHT + (bola.getHeight() * i));
 			platforms.add(platform);
 		}
 	}
@@ -135,19 +135,19 @@ public class GameWorld {
 			lastPlatformXPosition = positionX;
 		}
 
-		Platform platform = new Platform(positionX, GameScreen.GAME_HEIGHT);
+		Platform platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
 		return platform;
 
 	}
 
 	private void cleanUpPlatform(Platform platform) {
 		platform.setX(generatePlatformRandomXPosition());
-		platform.setY(GameScreen.GAME_HEIGHT);
+		platform.setY(GameConstants.GAME_HEIGHT);
 		platform.isVisible = true;
 	}
 
 	private float generatePlatformRandomXPosition(){
-		return (float)Math.random() * GameScreen.GAME_WIDTH;
+		return (float)Math.random() * GameConstants.GAME_WIDTH;
 	}
 
 	private void checkCollitions() {

@@ -3,6 +3,7 @@ package com.na76.flapmyballs;
 import com.badlogic.gdx.Game;
 import com.na76.flapmyballs.handlers.AssetLoader;
 import com.na76.flapmyballs.screens.GameScreen;
+import com.na76.flapmyballs.screens.SplashScreen;
 
 public class FlapMyBalls extends Game {
 
@@ -10,7 +11,8 @@ public class FlapMyBalls extends Game {
 	public void create() {
 		System.out.println("Flappy Balls created!");
 		AssetLoader.load();
-		setScreen(new GameScreen());
+		setScreen(new SplashScreen());
+//		setScreen(new GameScreen());
 	}
 	
 	@Override

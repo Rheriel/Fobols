@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.na76.flapmyballs.constants.GameConstants;
 import com.na76.flapmyballs.handlers.AssetLoader;
 import com.na76.flapmyballs.interfaces.Collidable;
-import com.na76.flapmyballs.screens.GameScreen;
 
 public class Platform extends GameObject implements Collidable {
 
@@ -22,7 +22,7 @@ public class Platform extends GameObject implements Collidable {
 
 	public Platform(float x, float y){
 		position = new Vector2(x, y);
-		velocity = new Vector2(0, GameScreen.GAME_VELOCITY);
+		velocity = new Vector2(0, GameConstants.GAME_VELOCITY);
 		this.stateTime = 0;
 		this.texture = AssetLoader.platform;
 		this.width = texture.getRegionWidth() / PLATFORM_SCALE;
