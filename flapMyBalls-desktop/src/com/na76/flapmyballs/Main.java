@@ -18,15 +18,15 @@ public class Main {
 		settings.maxHeight = 1024;
 		settings.stripWhitespaceX = true;
 		settings.stripWhitespaceY = true;
-		settings.filterMag = TextureFilter.Linear;
-		settings.filterMin = TextureFilter.Linear;
+		settings.filterMag = TextureFilter.MipMapLinearLinear;
+		settings.filterMin = TextureFilter.MipMapLinearLinear;
 		settings.flattenPaths = true;
 
 		TexturePacker.process(settings,"../flapMyBalls/images", "../flapMyBalls-android/assets/images", "gameTextures");
 
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "Flap My Balls";
+		cfg.title = "Fobols";
 		cfg.width = 272;
 		cfg.height = 408;
 

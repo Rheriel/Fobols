@@ -11,7 +11,7 @@ import com.na76.flapmyballs.gameobjects.Spikes;
 
 public class AssetLoader {
 
-	public static final int	DUDE_WALK_ANIMATION_FRAMES = 4;
+	public static final int	DUDE_WALK_ANIMATION_FRAMES = 6;
 
 	public static final float RUNNING_FRAME_DURATION = 0.06f;
 
@@ -70,12 +70,12 @@ public class AssetLoader {
 		
 		flippedSpike.flip(true, true);
 		
-		platform = textureAtlas.findRegion("platform");
+		platform = textureAtlas.findRegion("platform",1);
 		platform.flip(false, true);
 
-		dudeIdleLeft = textureAtlas.findRegion("fobolWalk",1);
+		dudeIdleLeft = textureAtlas.findRegion("blueFobolWalk",1);
 		
-		dudeFallingLeft = textureAtlas.findRegion("fobol_idle");
+		dudeFallingLeft = textureAtlas.findRegion("blueFobolIdle");
 		dudeFallingLeft.flip(false, true); // TODO Image is flipped in Atlas, fix it.
 		dudeFallingRight = new TextureRegion(dudeFallingLeft);
 		dudeFallingLeft.flip(true, false); // TODO Image is flipped in Atlas, fix it.
@@ -88,14 +88,14 @@ public class AssetLoader {
 		dudeWalkLeftFrames = new TextureRegion[DUDE_WALK_ANIMATION_FRAMES];
 		dudeWalkRightFrames = new TextureRegion[DUDE_WALK_ANIMATION_FRAMES];
 
-		for (int i = 1; i < 5; i++) {
+		for (int i = 1; i < 7; i++) {
 
-			dudeWalkRightFrames[i - 1] = textureAtlas.findRegion("fobolWalk",i);
+			dudeWalkRightFrames[i - 1] = textureAtlas.findRegion("blueFobolWalk",i);
 		}
 
 		dudeWalkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkLeftFrames);
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 6; i++) {
 			dudeWalkRightFrames[i].flip(false, true);
 			dudeWalkLeftFrames[i] = new TextureRegion(dudeWalkRightFrames[i]);
 			dudeWalkLeftFrames[i].flip(true, false);
