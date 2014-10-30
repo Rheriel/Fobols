@@ -10,12 +10,12 @@ import com.na76.flapmyballs.interfaces.Collidable;
 
 public class Platform extends GameObject implements Collidable {
 
-	private static final int PLATFORM_SCALE = 3;
-	private Vector2 position;
-	private Vector2 velocity;
-	private AtlasRegion texture;
-	private float width;
-	private float height;
+	protected static final int PLATFORM_SCALE = 3;
+	protected Vector2 position;
+	protected Vector2 velocity;
+	protected AtlasRegion texture;
+	protected float width;
+	protected float height;
 	public boolean isVisible = true;
 
 	float stateTime;

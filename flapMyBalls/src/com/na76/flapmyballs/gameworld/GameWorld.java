@@ -7,6 +7,7 @@ import java.util.Random;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.na76.flapmyballs.gameobjects.Bola;
+import com.na76.flapmyballs.gameobjects.EvilPlatform;
 import com.na76.flapmyballs.gameobjects.GameObject;
 import com.na76.flapmyballs.gameobjects.Platform;
 import com.na76.flapmyballs.gameobjects.Spikes;
@@ -42,6 +43,9 @@ public class GameWorld {
 	private List<GameObject> gameObjectsPool;
 
 	private int score = 0; 
+	private int oddsToGetAnEvilPlatform = 5;
+
+	private int difficulty = 1;
 
 	public GameWorld(int midPointY){
 
@@ -68,6 +72,7 @@ public class GameWorld {
 	}
 
 	private void generateLevel(){
+		Random random = new Random();
 		
 		gameObjectsPool = new ArrayList<GameObject>();
 		platforms = new ArrayList<Platform>();
@@ -77,7 +82,15 @@ public class GameWorld {
 		int numberOfPlatformsPerScreen = (int) (GameConstants.GAME_HEIGHT / bola.getHeight());
 
 		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
-			Platform platform = createRandomPlatform();
+			boolean isEvilPlatform = false;
+			int evilPlatformGenerator = random.nextInt(getOddsToGetAnEvilPlatform());
+			System.out.println("EVIL PLATFORM GENERATOR: " + evilPlatformGenerator);
+			
+			if (evilPlatformGenerator > getDifficulty()) {
+				isEvilPlatform = true;
+			}
+			
+			Platform platform = createRandomPlatform(isEvilPlatform);
 			platform.setY(GameConstants.GAME_HEIGHT + (bola.getHeight() * i));
 			platforms.add(platform);
 		}
@@ -126,16 +139,21 @@ public class GameWorld {
 
 	}
 
-	private Platform createRandomPlatform(){
+	private Platform createRandomPlatform(boolean isEvilPlatform){
 
 		float positionX = generatePlatformRandomXPosition();
-
+		Platform platform = null;
 		if ((lastPlatformXPosition - positionX) < (bola.getWidth() + (bola.getWidth() / 2))) {
 			positionX += bola.getWidth();
 			lastPlatformXPosition = positionX;
 		}
 
-		Platform platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
+		if (isEvilPlatform){
+			platform = new EvilPlatform(positionX, GameConstants.GAME_HEIGHT);
+		} else {
+			platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
+		}
+		
 		return platform;
 
 	}
@@ -169,7 +187,11 @@ public class GameWorld {
 						((platform.getX() <= (bolaHitbox.x + bolaHitbox.getWidth())) &&
 								((platform.getX() + platform.getWidth()) >= (bolaHitbox.x)))){                                
 					System.out.println("Collinde detected");
-					bola.collideWithPlatform(platform);
+					
+					if (platform instanceof EvilPlatform)
+						bola.collideWithEvilPlatform(platform);
+					else
+						bola.collideWithPlatform(platform);
 				} 
 			}
 		}
@@ -239,6 +261,22 @@ public class GameWorld {
 
 	public boolean isRunning() {
 		return currentState == GameState.RUNNING;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public int getOddsToGetAnEvilPlatform() {
+		return oddsToGetAnEvilPlatform;
+	}
+
+	public void setOddsToGetAnEvilPlatform(int oddsToGetAnEvilPlatform) {
+		this.oddsToGetAnEvilPlatform = oddsToGetAnEvilPlatform;
 	}
 
 }

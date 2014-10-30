@@ -56,6 +56,8 @@ public class AssetLoader {
 
 	public static AtlasRegion platform;
 	
+	public static AtlasRegion evilPlatform;
+	
 	public static AtlasRegion dudeDead;
 
 	public static void load() {
@@ -72,6 +74,9 @@ public class AssetLoader {
 		
 		platform = textureAtlas.findRegion("platform",1);
 		platform.flip(false, true);
+		
+		evilPlatform = textureAtlas.findRegion("evilPlatform",1);
+		evilPlatform.flip(false, true);
 
 		dudeIdleLeft = textureAtlas.findRegion("blueFobolWalk",1);
 		

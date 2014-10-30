@@ -32,8 +32,10 @@ public class Bola extends GameObject implements Collidable {
 
 	public boolean isCollidingWithPlatform = false;
 	public boolean isCollidingWithSpikes = false;
+	private boolean isCollidingWithEvilPlatform = false;
 
 	private boolean isAlive = true;
+
 
 	public Bola (float x, float y, int width, int height) {
 		this.width = width;
@@ -137,22 +139,28 @@ public class Bola extends GameObject implements Collidable {
 	public void onCollide() {
 
 		if (isCollidingWithSpikes ){
-			System.out.println("Colliding with spikes");
-			state = State.IDLE;
+			System.out.println("COLLIDING WITH SPIKES!");
+			state = State.DYING;
 			velocity.y = 0;
 			acceleration.y = 0;
-		}else{
+		}else {
 			if (isCollidingWithPlatform ){
 				System.out.println("COLLIDING!");
 				state = State.IDLE;
 				velocity.y = 0;
 				acceleration.y = 0;
-			} else {
+			} else if (isCollidingWithEvilPlatform){
+				System.out.println("COLLIDING WITH EVIL PLATFORM!");
+				state = State.DYING;
+				velocity.y = 0;
+				acceleration.y = 0;
+			}else {
 				System.out.println("FALLING!");
 				acceleration.y = 640;
 				state = State.FALLING;
 			}
-		}
+		} 
+
 	}
 
 	public void collideWithPlatform(Platform platform){
@@ -167,6 +175,15 @@ public class Bola extends GameObject implements Collidable {
 		isCollidingWithSpikes = true;
 		isAlive = false;
 		onCollide();
+	}
+
+	public void collideWithEvilPlatform(Platform evilPlatform) {
+		if(isCollidingWithSpikes == false){
+			isCollidingWithEvilPlatform = true;
+			isAlive = false;
+			this.position.y = evilPlatform.hitbox.y - (float)this.height;
+			onCollide();
+		}
 	}
 
 	public void draw(SpriteBatch batcher){
