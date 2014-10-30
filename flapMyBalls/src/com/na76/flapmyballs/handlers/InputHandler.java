@@ -38,8 +38,6 @@ public class InputHandler implements InputProcessor {
 			myWorld.start();
 		} else if (myWorld.isRunning()) {
 			myBola.touchDown();
-		} else if (myWorld.isGameOver()) {
-			myWorld.restart();
 		} 
 
 		return true; // Return true to say we handled the touch.
@@ -47,7 +45,12 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		myBola.touchUp();
+		if (myWorld.isRunning()) {
+			myBola.touchUp();
+		} else if (myWorld.isGameOver()) {
+			myWorld.restart();
+		} 
+		
 		return true; // Return true to say we handled the touch.
 	}
 
