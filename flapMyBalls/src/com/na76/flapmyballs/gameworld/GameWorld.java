@@ -188,10 +188,12 @@ public class GameWorld {
 								((platform.getX() + platform.getWidth()) >= (bolaHitbox.x)))){                                
 					System.out.println("Collinde detected");
 					
-					if (platform instanceof EvilPlatform)
+					if (platform instanceof EvilPlatform){
+						currentState = GameState.GAMEOVER;
 						bola.collideWithEvilPlatform(platform);
-					else
+					} else {
 						bola.collideWithPlatform(platform);
+					}
 				} 
 			}
 		}
