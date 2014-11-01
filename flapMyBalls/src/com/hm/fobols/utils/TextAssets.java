@@ -20,7 +20,7 @@ public class TextAssets {
 	private TextureAtlas atlas; 
 	
 	TextAssets(){
-		atlas = new TextureAtlas(Gdx.files.internal("data/gamePackText.atlas"));
+		atlas = new TextureAtlas(Gdx.files.internal("images/gamePackText.atlas"));
 		Zero = atlas.findRegion("Zero");
 		One = atlas.findRegion("One");
 		Two = atlas.findRegion("Two");
