@@ -23,12 +23,6 @@ public class GameWorld {
 
 	private GameState currentState;
 
-	public static final int BOLA_WIDTH = 22;
-	public static final int BOLA_HEIGHT = 26;
-	
-	public static final int STARTING_BOLA_X = (int) ((GameConstants.GAME_WIDTH/2) - (BOLA_WIDTH/2));
-	public static final int STARTING_BOLA_Y = (int) ((GameConstants.GAME_HEIGHT/2) - (BOLA_HEIGHT/2));
-	
 	private Bola bola;
 	private Spikes topSpikes;
 	private Spikes bottomSpikes;
@@ -45,13 +39,14 @@ public class GameWorld {
 	private int score = 0; 
 	private int oddsToGetAnEvilPlatform = 5;
 
-	private int difficulty = 1;
+	private int difficulty = 3;
 
 	public GameWorld(int midPointY){
 
 		currentState = GameState.READY;
 		
-		bola = new Bola(STARTING_BOLA_X, STARTING_BOLA_Y,BOLA_WIDTH, BOLA_HEIGHT);
+		bola = new Bola(GameConstants.STARTING_BOLA_X, GameConstants.STARTING_BOLA_Y, 
+				GameConstants.BOLA_WIDTH, GameConstants.BOLA_HEIGHT);
 
 		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 3;
 		int topSpikesHeight = AssetLoader.spike.getRegionHeight() / 3;
@@ -95,7 +90,30 @@ public class GameWorld {
 			platforms.add(platform);
 		}
 	}
+	
+	private Platform createRandomPlatform(boolean isEvilPlatform){
 
+		float positionX = generatePlatformRandomXPosition();
+		Platform platform = null;
+		if ((lastPlatformXPosition - positionX) < (bola.getWidth() + (bola.getWidth() / 2))) {
+			positionX += bola.getWidth();
+			lastPlatformXPosition = positionX;
+		}
+
+		if (isEvilPlatform){
+			platform = new EvilPlatform(positionX, GameConstants.GAME_HEIGHT);
+		} else {
+			platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
+		}
+		
+		return platform;
+
+	}
+
+	private float generatePlatformRandomXPosition(){
+		return (float)Math.random() * GameConstants.GAME_WIDTH;
+	}
+	
 	public void update(float delta) {
 
 		switch (currentState) {
@@ -122,55 +140,27 @@ public class GameWorld {
 		}
 		updatePlatforms(delta);
 	}
-
-	private void updatePlatforms(float delta){
-
-		for (Platform platform : platforms) {
-			if(platform.isVisible){
-				platform.update(delta);
-			} else {
-				cleanUpPlatform(platform);
-			}
-
-			if (platform.getY() + platform.getHeight() <= 0){
-				platform.isVisible = false;
-			}
-		}
-
-	}
-
-	private Platform createRandomPlatform(boolean isEvilPlatform){
-
-		float positionX = generatePlatformRandomXPosition();
-		Platform platform = null;
-		if ((lastPlatformXPosition - positionX) < (bola.getWidth() + (bola.getWidth() / 2))) {
-			positionX += bola.getWidth();
-			lastPlatformXPosition = positionX;
-		}
-
-		if (isEvilPlatform){
-			platform = new EvilPlatform(positionX, GameConstants.GAME_HEIGHT);
-		} else {
-			platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
-		}
-		
-		return platform;
-
-	}
-
-	private void cleanUpPlatform(Platform platform) {
-		platform.setX(generatePlatformRandomXPosition());
-		platform.setY(GameConstants.GAME_HEIGHT);
-		platform.isVisible = true;
-	}
-
-	private float generatePlatformRandomXPosition(){
-		return (float)Math.random() * GameConstants.GAME_WIDTH;
-	}
-
+	
 	private void checkCollitions() {
 		checkSpikesCollitions();
 		checkPlatformCollitions();
+	}
+	
+	private void checkSpikesCollitions(){
+
+		Rectangle bolaHitbox = bola.getHitbox();
+		Rectangle topSpikesHitbox = topSpikes.getHitbox();
+		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
+
+		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y) {                                
+			currentState = GameState.GAMEOVER;
+			bola.collideWithSpikes();
+		}
+
+		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
+			currentState = GameState.GAMEOVER;
+			bola.collideWithSpikes();
+		}
 	}
 
 	private void checkPlatformCollitions() {
@@ -201,6 +191,28 @@ public class GameWorld {
 		bola.onCollide();
 	}
 
+	private void updatePlatforms(float delta){
+
+		for (Platform platform : platforms) {
+			if(platform.isVisible){
+				platform.update(delta);
+			} else {
+				cleanUpPlatform(platform);
+			}
+
+			if (platform.getY() + platform.getHeight() <= 0){
+				platform.isVisible = false;
+			}
+		}
+
+	}
+
+	private void cleanUpPlatform(Platform platform) {
+		platform.setX(generatePlatformRandomXPosition());
+		platform.setY(GameConstants.GAME_HEIGHT);
+		platform.isVisible = true;
+	}
+
 	public Bola getBola(){
 		return bola;
 	}
@@ -217,23 +229,6 @@ public class GameWorld {
 		return gameObjectsPool;
 	}
 
-	private void checkSpikesCollitions(){
-
-		Rectangle bolaHitbox = bola.getHitbox();
-		Rectangle topSpikesHitbox = topSpikes.getHitbox();
-		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
-
-		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y) {                                
-			currentState = GameState.GAMEOVER;
-			bola.collideWithSpikes();
-		}
-
-		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
-			currentState = GameState.GAMEOVER;
-			bola.collideWithSpikes();
-		}
-	}
-
 	public boolean isReady(){
 		return currentState == GameState.READY;			
 	}
@@ -248,7 +243,7 @@ public class GameWorld {
 	}
 	
 	public void restart() {
-		bola.onRestart(STARTING_BOLA_X, STARTING_BOLA_Y);
+		bola.onRestart(GameConstants.STARTING_BOLA_X, GameConstants.STARTING_BOLA_Y);
 		currentState = GameState.READY;
 		score = 0;
 	}
