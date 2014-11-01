@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MenuScreen implements Screen {
 	// TODO Add Buttons graphics and create skins for them...
+//	test
 	private Stage stage = new Stage();
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"));
 	private TextButton playButton = new TextButton("Play", skin);
