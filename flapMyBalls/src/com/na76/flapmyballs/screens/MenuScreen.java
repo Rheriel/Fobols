@@ -75,3 +75,4 @@ public class MenuScreen implements Screen {
 	}
 
 }
+>>>>>>> 0727316 Delete Test message
