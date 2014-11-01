@@ -29,12 +29,13 @@ public class GameRenderer {
 		drawBackground(batcher);
 		myWorld.getTime().count(Gdx.graphics.getDeltaTime());
 		myWorld.getScore().addToScore(GameConstants.SCORE_INCREMENT_PER_FRAME);
-		myWorld.getScore().draw(batcher);
+		
 
 		// Draws everything
 		List<GameObject> gameObjects = myWorld.getObjectsPool();
 		
 		drawPlatform(batcher);
+		myWorld.getScore().draw(batcher);
 		
 		for (GameObject gameObject : gameObjects) {
 			gameObject.draw(batcher);

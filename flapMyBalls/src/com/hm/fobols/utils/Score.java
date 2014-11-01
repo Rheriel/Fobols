@@ -7,6 +7,7 @@ import com.na76.flapmyballs.gameobjects.InteractiveElement;
 
 public class Score {
 	private int score;
+	private int modScore;
 
 	private InteractiveElement millionsElement;
 	private InteractiveElement hundredthousandsElement;
@@ -27,6 +28,7 @@ public class Score {
 	
 	public Score(){
 		score = 0;
+		modScore = 0;
 		millionsElement = new InteractiveElement();
 		hundredthousandsElement = new InteractiveElement();
 		tenthousandsElement = new InteractiveElement();
@@ -50,9 +52,10 @@ public class Score {
 	
 	public void addToScore(int Add)
 	{
-		System.out.print("Score Level: " + Add);
+//		System.out.print("Score Level: " + Add);
 		score = score + Add;
-		System.out.print("Score Total: " + score);
+		modScore = modScore + Add;
+//		System.out.print("Score Total: " + score);
 	}
 	
 	public void draw(SpriteBatch batch)
@@ -66,6 +69,7 @@ public class Score {
 		int ones = 0;
 		int printedScore = 0;
 		
+		
 		millionsElement.setProperties(GameConstants.SCORE_FONT_WIDTH, GameConstants.SCORE_FONT_HEIGHT, GameConstants.X_VALUE_MILLION, GameConstants.Y_VALUE_SCORE);
 		hundredthousandsElement.setProperties(GameConstants.SCORE_FONT_WIDTH, GameConstants.SCORE_FONT_HEIGHT, GameConstants.X_VALUE_HUNDRED_THOUSAND, GameConstants.Y_VALUE_SCORE);
 		tenthousandsElement.setProperties(GameConstants.SCORE_FONT_WIDTH, GameConstants.SCORE_FONT_HEIGHT, GameConstants.X_VALUE_TEN_THOUSAND, GameConstants.Y_VALUE_SCORE);
@@ -74,28 +78,51 @@ public class Score {
 		tensElement.setProperties(GameConstants.SCORE_FONT_WIDTH, GameConstants.SCORE_FONT_HEIGHT, GameConstants.X_VALUE_TEN, GameConstants.Y_VALUE_SCORE);
 		onesElement.setProperties(GameConstants.SCORE_FONT_WIDTH, GameConstants.SCORE_FONT_HEIGHT, GameConstants.X_VALUE_ONE, GameConstants.Y_VALUE_SCORE);
 		
+
+		
 		if (score>0){
 			printedScore = score;
 			millions = printedScore /MILLION;
-//			System.out.print("M" + millions);
+			System.out.print("M" + millions);
 			printedScore = printedScore - millions * MILLION;
 			hundredthousands = printedScore/ HUNDREDTHOUSAND;
-//			System.out.print("HT" + hundredthousands);
+			System.out.print("HT" + hundredthousands);
 			printedScore = printedScore - hundredthousands * HUNDREDTHOUSAND;
 			tenthousands = printedScore/ TENTHOUSAND;
-//			System.out.print("TT" + tenthousands);
+			System.out.print("TT" + tenthousands);
 			printedScore = printedScore - tenthousands * TENTHOUSAND;
 			thousands = printedScore/ THOUSAND;
-//			System.out.print("T" + thousands);
+			System.out.print("T" + thousands);
 			printedScore = printedScore - thousands * THOUSAND;
 			hundreds = printedScore/ HUNDRED;
-//			System.out.print("H" + hundreds);
+			System.out.print("H" + hundreds);
 			printedScore = printedScore - hundreds * HUNDRED;
 			tens = printedScore/ TEN;
-//			System.out.print("t" + tens);
+			System.out.print("t" + tens);
 			printedScore = printedScore - tens * TEN;
 			ones = printedScore;
-//			System.out.print("On" + ones);			
+			System.out.print("On" + ones);			
+		}
+		
+		if (modScore>1000){
+			if(millions>0){
+				millionsElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_MILLION_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			}
+			if (hundredthousands>0){
+				hundredthousandsElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_HUNDRED_THOUSAND_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			}
+			if(tenthousands>0){
+			tenthousandsElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_TEN_THOUSAND_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			}
+			thousandsElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_THOUSAND_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			hundredsElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_HUNDRED_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			tensElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_TEN_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+			onesElement.setProperties(GameConstants.SCORE_FONT_WIDTH_MOD, GameConstants.SCORE_FONT_HEIGHT_MOD, GameConstants.X_VALUE_ONE_MOD, GameConstants.Y_VALUE_SCORE_MOD);
+
+			if (modScore>1010){
+				modScore = 10;
+			}
+			
 		}
 		
 		textureSelector(millionsElement, millions);

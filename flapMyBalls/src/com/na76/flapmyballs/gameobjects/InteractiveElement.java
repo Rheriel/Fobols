@@ -97,8 +97,8 @@ public class InteractiveElement {
 	}
 	
 	public void setProperties(float width, float height, float xposition, float yposition){
-		width = width;
-		height = height;
+		this.width = width;
+		this.height = height;
 		xStartPosition = xposition;
 		yStartPosition = yposition;
 	}

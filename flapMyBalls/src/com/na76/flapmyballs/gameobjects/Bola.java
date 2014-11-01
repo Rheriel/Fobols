@@ -50,6 +50,7 @@ public class Bola extends GameObject implements Collidable {
 
 	public void update(float delta) {
 		System.out.println(this.getState());
+		System.out.println(position.x + " "+ position.y);
 
 		if (isAlive){
 			if (this.getState() == State.FALLING){
