@@ -32,7 +32,7 @@ public class Bola extends GameObject implements Collidable {
 
 	public boolean isCollidingWithPlatform = false;
 	public boolean isCollidingWithSpikes = false;
-	private boolean isCollidingWithEvilPlatform = false;
+	public boolean isCollidingWithEvilPlatform = false;
 
 	private boolean isAlive = true;
 
@@ -235,6 +235,7 @@ public class Bola extends GameObject implements Collidable {
 		isAlive = true;
 		isCollidingWithPlatform = false;
 		isCollidingWithSpikes = false;
+		isCollidingWithEvilPlatform = false;
 	}
 
 }

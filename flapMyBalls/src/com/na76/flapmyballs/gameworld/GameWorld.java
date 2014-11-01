@@ -196,6 +196,7 @@ public class GameWorld {
 					if (platform instanceof EvilPlatform){
 						currentState = GameState.GAMEOVER;
 						bola.collideWithEvilPlatform(platform);
+						break;
 					} else {
 						bola.collideWithPlatform(platform);
 					}
