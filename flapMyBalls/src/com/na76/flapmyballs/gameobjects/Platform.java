@@ -47,9 +47,9 @@ public class Platform extends GameObject implements Collidable {
 
 	@Override
 	public void draw(SpriteBatch batcher) {
-		batcher.begin();
+
 		batcher.draw(texture, this.position.x, this.position.y, this.getWidth(), this.getHeight());
-		batcher.end();
+	
 	}
 	
 	public float getX() {

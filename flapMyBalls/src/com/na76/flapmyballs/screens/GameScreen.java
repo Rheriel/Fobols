@@ -2,6 +2,9 @@ package com.na76.flapmyballs.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.na76.flapmyballs.constants.GameConstants;
 import com.na76.flapmyballs.gameworld.GameRenderer;
 import com.na76.flapmyballs.gameworld.GameWorld;
@@ -12,19 +15,31 @@ public class GameScreen implements Screen {
 	private GameWorld world;
 	private GameRenderer renderer;
 	private float runTime;
+	private OrthographicCamera cam;
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch batcher;
 	
 	public GameScreen(){
 		Gdx.app.log("Game Screen", "Constructor called");
-        world = new GameWorld(GameConstants.GAME_MID_POINT_Y);
-        renderer = new GameRenderer(world, (int) GameConstants.GAME_HEIGHT, GameConstants.GAME_MID_POINT_Y);
+		cam = new OrthographicCamera();
+		cam.setToOrtho(true, (int) GameConstants.GAME_WIDTH, (int) GameConstants.GAME_HEIGHT);
+
+		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(cam.combined);
+        batcher = new SpriteBatch();
+        batcher.setProjectionMatrix(cam.combined);
+		world = new GameWorld(GameConstants.GAME_MID_POINT_Y);
+        renderer = new GameRenderer(world);
         Gdx.input.setInputProcessor(new InputHandler(world));
 	}
 
 	@Override
-	public void render(float delta) {
+	public void render(float delta) {		
 		runTime += delta;
         world.update(delta);
-        renderer.render(runTime);
+        batcher.begin();
+        renderer.render(runTime, batcher);
+        batcher.end();
 	}
 
 	@Override
@@ -54,7 +69,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// Leave blank
+		batcher.dispose();
+
 	}
 
 }

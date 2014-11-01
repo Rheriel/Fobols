@@ -39,9 +39,8 @@ public class EvilPlatform  extends Platform implements Collidable {
 
 	@Override
 	public void draw(SpriteBatch batcher) {
-		batcher.begin();
+
 		batcher.draw(texture, this.position.x, this.position.y, this.getWidth(), this.getHeight());
-		batcher.end();
 	}
 
 }

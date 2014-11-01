@@ -6,13 +6,15 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.hm.fobols.utils.Score;
+import com.hm.fobols.utils.Time;
+import com.na76.flapmyballs.constants.GameConstants;
 import com.na76.flapmyballs.gameobjects.Bola;
 import com.na76.flapmyballs.gameobjects.EvilPlatform;
 import com.na76.flapmyballs.gameobjects.GameObject;
 import com.na76.flapmyballs.gameobjects.Platform;
 import com.na76.flapmyballs.gameobjects.Spikes;
 import com.na76.flapmyballs.handlers.AssetLoader;
-import com.na76.flapmyballs.constants.GameConstants;
 
 
 public class GameWorld {
@@ -41,8 +43,8 @@ public class GameWorld {
 	private Rectangle worldBounds;
 
 	private List<GameObject> gameObjectsPool;
-
-	private int score = 0; 
+	private Time time;
+	private Score score;
 	private int oddsToGetAnEvilPlatform = 5;
 
 	private int difficulty = 1;
@@ -50,6 +52,9 @@ public class GameWorld {
 	public GameWorld(int midPointY){
 
 		currentState = GameState.READY;
+		time = new Time();
+		score = new Score();
+		
 		
 		bola = new Bola(STARTING_BOLA_X, STARTING_BOLA_Y,BOLA_WIDTH, BOLA_HEIGHT);
 
@@ -250,16 +255,8 @@ public class GameWorld {
 	public void restart() {
 		bola.onRestart(STARTING_BOLA_X, STARTING_BOLA_Y);
 		currentState = GameState.READY;
-		score = 0;
 	}
 	
-	public void addScore(int increment){
-		score += increment;
-	}
-	
-	public int getScore(){
-		return this.score;
-	}
 
 	public boolean isRunning() {
 		return currentState == GameState.RUNNING;
@@ -279,6 +276,14 @@ public class GameWorld {
 
 	public void setOddsToGetAnEvilPlatform(int oddsToGetAnEvilPlatform) {
 		this.oddsToGetAnEvilPlatform = oddsToGetAnEvilPlatform;
+	}
+
+	public Time getTime() {
+		return time;		
+	}
+	
+	public Score getScore() {
+		return score;		
 	}
 
 }

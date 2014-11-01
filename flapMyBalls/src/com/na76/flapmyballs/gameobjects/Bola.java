@@ -207,9 +207,9 @@ public class Bola extends GameObject implements Collidable {
 				}
 			}
 		} 
-		batcher.begin();
+
 		batcher.draw(AssetLoader.currentDudeFrame, this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		batcher.end();
+		
 
 	}
 
