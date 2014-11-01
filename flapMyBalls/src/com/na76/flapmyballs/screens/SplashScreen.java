@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.na76.flapmyballs.constants.GameConstants;
 
 public class SplashScreen implements Screen {
-	// TEST
+
 	private Texture splash = new Texture(Gdx.files.internal("na76_logo.png"));
 	private Image splashImage = new Image(splash);
 	private Stage stage = new Stage();
