@@ -13,7 +13,7 @@ import com.na76.flapmyballs.handlers.AssetLoader;
 public class GameRenderer {
 
 	private GameWorld myWorld;
-	
+
 
 	public GameRenderer(GameWorld world) {
 		myWorld = world;
@@ -28,28 +28,30 @@ public class GameRenderer {
 
 		drawBackground(batcher);
 		myWorld.getTime().count(Gdx.graphics.getDeltaTime());
-		myWorld.getScore().addToScore(GameConstants.SCORE_INCREMENT_PER_FRAME);
-		
+
+		if(myWorld.isRunning()){
+			myWorld.getScore().addToScore(GameConstants.SCORE_INCREMENT_PER_FRAME);
+		}
 
 		// Draws everything
 		List<GameObject> gameObjects = myWorld.getObjectsPool();
-		
+
 		drawPlatform(batcher);
 		myWorld.getScore().draw(batcher);
-		
+
 		for (GameObject gameObject : gameObjects) {
 			gameObject.draw(batcher);
 		}
 
 	}
-	
+
 	private void drawBackground(SpriteBatch batcher){
-		
+
 		Spikes topSpikes = myWorld.getTopSpikes();
 		Spikes bottomSpikes = myWorld.getBottomSpikes();
-		
+
 		batcher.draw(AssetLoader.backGround,0,0);
-		
+
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += topSpikes.getWidth()) {
 			batcher.draw(AssetLoader.spike, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
 		}
@@ -57,9 +59,9 @@ public class GameRenderer {
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += bottomSpikes.getWidth()) {
 			batcher.draw(AssetLoader.flippedSpike, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
 		}
-		
+
 	}
-	
+
 	private void drawPlatform(SpriteBatch batcher){
 		int len = myWorld.platforms.size();
 		for (int i = 0; i < len; i++) {
@@ -69,5 +71,5 @@ public class GameRenderer {
 	}
 
 
-	
+
 }

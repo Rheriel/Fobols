@@ -52,4 +52,7 @@ public class GameConstants {
 	public final static float Y_VALUE_SCORE_MOD = Y_VALUE_SCORE-0f;
 	
 	public static final int SCORE_INCREMENT_PER_FRAME = 3;
+	public static final int INITIAL_GAME_DIFFICULTY = 4;
+	public static final int INITIAL_GAME_VELOCITY = 1;
+	public static final int GAME_ROWS = 5;
 }

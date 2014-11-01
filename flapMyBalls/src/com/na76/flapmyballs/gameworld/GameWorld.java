@@ -37,7 +37,7 @@ public class GameWorld {
 	private float lastPlatformXPosition = 0f;
 	public List<Platform> platforms;
 
-	public final Random rand;
+	public final Random random;
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	private Rectangle worldBounds;
@@ -69,15 +69,14 @@ public class GameWorld {
 
 		topSpikes.setNewBounds(0,0, GameConstants.GAME_WIDTH, topSpikesHeight / 2);
 		bottomSpikes.setNewBounds(0,GameConstants.GAME_HEIGHT - (bottomSpikesHeight / 2), GameConstants.GAME_WIDTH, bottomSpikesHeight / 2);
-		rand = new Random();
+		random = new Random();
 		
 		worldBounds = new Rectangle(0 + 1, GameConstants.GAME_HEIGHT - 1, GameConstants.GAME_WIDTH - 1, 0 + 1);
 
-		generateLevel();
+		generateLevel(GameConstants.INITIAL_GAME_DIFFICULTY, GameConstants.INITIAL_GAME_VELOCITY);
 	}
 
-	private void generateLevel(){
-		Random random = new Random();
+	private void generateLevel(int difficulty, int velocity){
 		
 		gameObjectsPool = new ArrayList<GameObject>();
 		platforms = new ArrayList<Platform>();
@@ -146,7 +145,8 @@ public class GameWorld {
 
 	private Platform createRandomPlatform(boolean isEvilPlatform){
 
-		float positionX = generatePlatformRandomXPosition();
+		// TODO Define 5 possible columns where the platforms might be.
+		float positionX = generatePlatformRandomRow();
 		Platform platform = null;
 		if ((lastPlatformXPosition - positionX) < (bola.getWidth() + (bola.getWidth() / 2))) {
 			positionX += bola.getWidth();
@@ -164,13 +164,38 @@ public class GameWorld {
 	}
 
 	private void cleanUpPlatform(Platform platform) {
-		platform.setX(generatePlatformRandomXPosition());
+		platform.setX(generatePlatformRandomRow());
 		platform.setY(GameConstants.GAME_HEIGHT);
 		platform.isVisible = true;
 	}
 
-	private float generatePlatformRandomXPosition(){
-		return (float)Math.random() * GameConstants.GAME_WIDTH;
+	private float generatePlatformRandomRow(){
+		
+		int platformRow = random.nextInt(GameConstants.GAME_ROWS + 1);
+		float platformX = 0f;
+		
+		switch (platformRow){
+		
+		case 1:
+			platformX = random.nextInt((int)(GameConstants.GAME_WIDTH / 5) + 1);
+			break;
+		case 2:
+			platformX = random.nextInt((int)((GameConstants.GAME_WIDTH / 5) + ((GameConstants.GAME_WIDTH / 5) + 1)));
+			break;
+		case 3:
+			platformX = random.nextInt((int)((GameConstants.GAME_WIDTH / 5) + ((GameConstants.GAME_WIDTH / 5) + 1) * 2));
+			break;
+		case 4:
+			platformX = random.nextInt((int)((GameConstants.GAME_WIDTH / 5) + ((GameConstants.GAME_WIDTH / 5) + 1) * 3));
+			break;
+		case 5:
+			platformX = random.nextInt((int)((GameConstants.GAME_WIDTH / 5) + ((GameConstants.GAME_WIDTH / 5) + 1) * 4));
+			break;
+		default:
+				break;
+		}
+		
+		return platformX;
 	}
 
 	private void checkCollitions() {
@@ -250,12 +275,13 @@ public class GameWorld {
 
 	public void start(){
 		currentState = GameState.RUNNING;
-		generateLevel();
+		generateLevel(GameConstants.INITIAL_GAME_DIFFICULTY, GameConstants.INITIAL_GAME_VELOCITY);
 	}
 	
 	public void restart() {
 		bola.onRestart(STARTING_BOLA_X, STARTING_BOLA_Y);
 		currentState = GameState.READY;
+		score.setScore(0);
 	}
 	
 
