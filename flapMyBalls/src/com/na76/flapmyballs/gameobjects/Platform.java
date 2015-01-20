@@ -10,7 +10,6 @@ import com.na76.flapmyballs.interfaces.Collidable;
 
 public class Platform extends GameObject implements Collidable {
 
-	protected static final int PLATFORM_SCALE = 3;
 	protected Vector2 position;
 	protected Vector2 velocity;
 	protected AtlasRegion texture;
@@ -25,8 +24,8 @@ public class Platform extends GameObject implements Collidable {
 		velocity = new Vector2(0, GameConstants.GAME_VELOCITY);
 		this.stateTime = 0;
 		this.texture = AssetLoader.platform;
-		this.width = texture.getRegionWidth() / PLATFORM_SCALE;
-		this.height = texture.getRegionHeight() / PLATFORM_SCALE;
+		this.width = texture.getRegionWidth() / GameConstants.PLATFORM_SCALE;
+		this.height = texture.getRegionHeight() / GameConstants.PLATFORM_SCALE;
 		
 		hitbox = new Rectangle(this.position.x, this.position.y, this.width, this.height);
 	}

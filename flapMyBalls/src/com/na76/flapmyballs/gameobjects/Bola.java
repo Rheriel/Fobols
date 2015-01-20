@@ -17,8 +17,8 @@ public class Bola extends GameObject implements Collidable {
 	private Vector2 acceleration;
 	private Vector2 touchedPoint;
 
-	private int width;
-	private int height;
+	private float width;
+	private float height;
 
 	public enum State {
 		IDLE, WALKING, FALLING, DYING
@@ -38,8 +38,8 @@ public class Bola extends GameObject implements Collidable {
 
 
 	public Bola (float x, float y, int width, int height) {
-		this.width = width;
-		this.height = height;
+		this.width = width / GameConstants.BOLA_SCALE;
+		this.height = height / GameConstants.BOLA_SCALE;
 		position = new Vector2(x, y);
 		velocity = new Vector2(0, 0);
 		acceleration = new Vector2(0, 460);

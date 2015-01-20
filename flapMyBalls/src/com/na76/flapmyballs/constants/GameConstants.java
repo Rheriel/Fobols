@@ -56,4 +56,7 @@ public class GameConstants {
 	public static final int INITIAL_GAME_VELOCITY = 1;
 	public static final int GAME_ROWS = 5;
 	public static final boolean TOGGLE_PLATFORMS = true;
+	public static final float BOLA_SCALE = 1.5f;
+	public static final int PLATFORM_SCALE = 4;
+
 }
