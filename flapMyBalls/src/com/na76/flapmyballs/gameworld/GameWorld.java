@@ -27,10 +27,10 @@ public class GameWorld {
 
 	public static final int BOLA_WIDTH = 22;
 	public static final int BOLA_HEIGHT = 26;
-	
+
 	public static final int STARTING_BOLA_X = (int) ((GameConstants.GAME_WIDTH/2) - (BOLA_WIDTH/2));
 	public static final int STARTING_BOLA_Y = (int) ((GameConstants.GAME_HEIGHT/2) - (BOLA_HEIGHT/2));
-	
+
 	private Bola bola;
 	private Spikes topSpikes;
 	private Spikes bottomSpikes;
@@ -45,17 +45,17 @@ public class GameWorld {
 	private List<GameObject> gameObjectsPool;
 	private Time time;
 	private Score score;
-	private int oddsToGetAnEvilPlatform = 5;
+	private int oddsToGetAnEvilPlatform = 1;
 
-	private int difficulty = 1;
+	private int difficulty = 4;
 
 	public GameWorld(int midPointY){
 
 		currentState = GameState.READY;
 		time = new Time();
 		score = new Score();
-		
-		
+
+
 		bola = new Bola(STARTING_BOLA_X, STARTING_BOLA_Y,BOLA_WIDTH, BOLA_HEIGHT);
 
 		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 3;
@@ -70,33 +70,36 @@ public class GameWorld {
 		topSpikes.setNewBounds(0,0, GameConstants.GAME_WIDTH, topSpikesHeight / 2);
 		bottomSpikes.setNewBounds(0,GameConstants.GAME_HEIGHT - (bottomSpikesHeight / 2), GameConstants.GAME_WIDTH, bottomSpikesHeight / 2);
 		random = new Random();
-		
+
 		worldBounds = new Rectangle(0 + 1, GameConstants.GAME_HEIGHT - 1, GameConstants.GAME_WIDTH - 1, 0 + 1);
 
 		generateLevel(GameConstants.INITIAL_GAME_DIFFICULTY, GameConstants.INITIAL_GAME_VELOCITY);
 	}
 
 	private void generateLevel(int difficulty, int velocity){
-		
+
 		gameObjectsPool = new ArrayList<GameObject>();
-		platforms = new ArrayList<Platform>();
 
 		gameObjectsPool.add(bola);
 
-		int numberOfPlatformsPerScreen = (int) (GameConstants.GAME_HEIGHT / bola.getHeight());
+		if (GameConstants.TOGGLE_PLATFORMS) {
 
-		for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
-			boolean isEvilPlatform = false;
-			int evilPlatformGenerator = random.nextInt(getOddsToGetAnEvilPlatform());
-			System.out.println("EVIL PLATFORM GENERATOR: " + evilPlatformGenerator);
-			
-			if (evilPlatformGenerator > getDifficulty()) {
-				isEvilPlatform = true;
+			platforms = new ArrayList<Platform>();
+			int numberOfPlatformsPerScreen = (int) (GameConstants.GAME_HEIGHT / (bola.getHeight() * 1.5));
+
+			for (int i = 0; i < numberOfPlatformsPerScreen; i++) {
+				boolean isEvilPlatform = false;
+				int evilPlatformGenerator = random.nextInt(getOddsToGetAnEvilPlatform());
+				System.out.println("EVIL PLATFORM GENERATOR: " + evilPlatformGenerator);
+
+				if (evilPlatformGenerator > getDifficulty()) {
+					isEvilPlatform = true;
+				}
+
+				Platform platform = createRandomPlatform(isEvilPlatform);
+				platform.setY(0 - (bola.getHeight()  + (platform.getHeight() * i *2)));
+				platforms.add(platform);
 			}
-			
-			Platform platform = createRandomPlatform(isEvilPlatform);
-			platform.setY(GameConstants.GAME_HEIGHT + (bola.getHeight() * i));
-			platforms.add(platform);
 		}
 	}
 
@@ -124,7 +127,9 @@ public class GameWorld {
 		for (GameObject gameObject : gameObjectsPool) {
 			gameObject.update(delta);
 		}
-		updatePlatforms(delta);
+		
+		if (GameConstants.TOGGLE_PLATFORMS)
+			updatePlatforms(delta);
 	}
 
 	private void updatePlatforms(float delta){
@@ -136,7 +141,7 @@ public class GameWorld {
 				cleanUpPlatform(platform);
 			}
 
-			if (platform.getY() + platform.getHeight() <= 0){
+			if (platform.getY() - platform.getHeight() >= GameConstants.GAME_HEIGHT){
 				platform.isVisible = false;
 			}
 		}
@@ -154,28 +159,28 @@ public class GameWorld {
 		}
 
 		if (isEvilPlatform){
-			platform = new EvilPlatform(positionX, GameConstants.GAME_HEIGHT);
+			platform = new EvilPlatform(positionX, 0);
 		} else {
-			platform = new Platform(positionX, GameConstants.GAME_HEIGHT);
+			platform = new Platform(positionX, 0);
 		}
-		
+
 		return platform;
 
 	}
 
 	private void cleanUpPlatform(Platform platform) {
 		platform.setX(generatePlatformRandomRow());
-		platform.setY(GameConstants.GAME_HEIGHT);
+		platform.setY(-platform.getHeight());
 		platform.isVisible = true;
 	}
 
 	private float generatePlatformRandomRow(){
-		
+
 		int platformRow = random.nextInt(GameConstants.GAME_ROWS + 1);
 		float platformX = 0f;
-		
+
 		switch (platformRow){
-		
+
 		case 1:
 			platformX = random.nextInt((int)(GameConstants.GAME_WIDTH / 5) + 1);
 			break;
@@ -192,15 +197,16 @@ public class GameWorld {
 			platformX = random.nextInt((int)((GameConstants.GAME_WIDTH / 5) + ((GameConstants.GAME_WIDTH / 5) + 1) * 4));
 			break;
 		default:
-				break;
+			break;
 		}
-		
+
 		return platformX;
 	}
 
 	private void checkCollitions() {
 		checkSpikesCollitions();
-		checkPlatformCollitions();
+		if (GameConstants.TOGGLE_PLATFORMS)
+			checkPlatformCollitions();
 	}
 
 	private void checkPlatformCollitions() {
@@ -208,16 +214,14 @@ public class GameWorld {
 		bola.isCollidingWithPlatform = false;
 
 		for (Platform platform : platforms) {
-			if (platform.isVisible) {
+			if (platform.isVisible && bola.isAlive()) {
 				Rectangle bolaHitbox = bola.getHitbox();
 
-
-
-				if(Math.abs(platform.getY() - (bolaHitbox.getY() + (float)bolaHitbox.height)) < 1 &&
+				if((Math.abs(bolaHitbox.y - (platform.getY() + platform.getHeight())) < 1 ) &&
 						((platform.getX() <= (bolaHitbox.x + bolaHitbox.getWidth())) &&
 								((platform.getX() + platform.getWidth()) >= (bolaHitbox.x)))){                                
 					System.out.println("Collinde detected");
-					
+
 					if (platform instanceof EvilPlatform){
 						currentState = GameState.GAMEOVER;
 						bola.collideWithEvilPlatform(platform);
@@ -226,6 +230,7 @@ public class GameWorld {
 						bola.collideWithPlatform(platform);
 					}
 				} 
+
 			}
 		}
 
@@ -252,14 +257,19 @@ public class GameWorld {
 
 		Rectangle bolaHitbox = bola.getHitbox();
 		Rectangle topSpikesHitbox = topSpikes.getHitbox();
-		Rectangle bottommSpikesHitbox = bottomSpikes.getHitbox();
+		Rectangle bottomSpikesHitbox = bottomSpikes.getHitbox();
 
-		if(topSpikesHitbox.y + topSpikesHitbox.height >= bolaHitbox.y) {                                
+		float bolaHeadLimit = bolaHitbox.getY() + bolaHitbox.getHeight();
+		float topSpikesY = GameConstants.GAME_HEIGHT - topSpikesHitbox.getHeight();
+
+		if(bolaHeadLimit >= topSpikesY) {                                
+			System.out.println("COLLIDING WITH TOP SPIKES!");
 			currentState = GameState.GAMEOVER;
 			bola.collideWithSpikes();
 		}
 
-		if(bottommSpikesHitbox.y - bottommSpikesHitbox.height <= (bolaHitbox.y + bolaHitbox.getHeight() / 2)) {                                
+		if(bolaHitbox.y <= bottomSpikesHitbox.getHeight()) {                                
+			System.out.println("COLLIDING WITH BOTTOM SPIKES!");
 			currentState = GameState.GAMEOVER;
 			bola.collideWithSpikes();
 		}
@@ -268,7 +278,7 @@ public class GameWorld {
 	public boolean isReady(){
 		return currentState == GameState.READY;			
 	}
-	
+
 	public boolean isGameOver() {
 		return currentState == GameState.GAMEOVER;
 	}
@@ -277,13 +287,13 @@ public class GameWorld {
 		currentState = GameState.RUNNING;
 		generateLevel(GameConstants.INITIAL_GAME_DIFFICULTY, GameConstants.INITIAL_GAME_VELOCITY);
 	}
-	
+
 	public void restart() {
 		bola.onRestart(STARTING_BOLA_X, STARTING_BOLA_Y);
 		currentState = GameState.READY;
 		score.setScore(0);
 	}
-	
+
 
 	public boolean isRunning() {
 		return currentState == GameState.RUNNING;
@@ -308,7 +318,7 @@ public class GameWorld {
 	public Time getTime() {
 		return time;		
 	}
-	
+
 	public Score getScore() {
 		return score;		
 	}

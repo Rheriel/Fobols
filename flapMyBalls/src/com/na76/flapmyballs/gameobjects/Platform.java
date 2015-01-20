@@ -38,7 +38,7 @@ public class Platform extends GameObject implements Collidable {
 	@Override
 	public void update(float delta) {
 		
-		position.sub(0, velocity.y * delta);
+		position.add(velocity.cpy().scl(delta));
 		hitbox.x = position.x;
 		hitbox.y = position.y;
 		stateTime += delta;

@@ -36,21 +36,31 @@ public class GameRenderer {
 		// Draws everything
 		List<GameObject> gameObjects = myWorld.getObjectsPool();
 
-		drawPlatform(batcher);
-		myWorld.getScore().draw(batcher);
-
+		if (GameConstants.TOGGLE_PLATFORMS)
+			drawPlatform(batcher);
+		
+		
 		for (GameObject gameObject : gameObjects) {
 			gameObject.draw(batcher);
 		}
+		
+		drawSpikes(batcher);
+		
+		myWorld.getScore().draw(batcher);
+
 
 	}
 
 	private void drawBackground(SpriteBatch batcher){
 
+		batcher.draw(AssetLoader.backGround, 0, 0, GameConstants.GAME_WIDTH,GameConstants.GAME_HEIGHT);
+
+	}
+
+	private void drawSpikes(SpriteBatch batcher) {
 		Spikes topSpikes = myWorld.getTopSpikes();
 		Spikes bottomSpikes = myWorld.getBottomSpikes();
 
-		batcher.draw(AssetLoader.backGround,0,0);
 
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += topSpikes.getWidth()) {
 			batcher.draw(AssetLoader.spike, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
@@ -59,7 +69,6 @@ public class GameRenderer {
 		for(int i = 0; i <= Gdx.graphics.getWidth(); i += bottomSpikes.getWidth()) {
 			batcher.draw(AssetLoader.flippedSpike, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
 		}
-
 	}
 
 	private void drawPlatform(SpriteBatch batcher){

@@ -2,6 +2,7 @@ package com.na76.flapmyballs.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -62,7 +63,7 @@ public class AssetLoader {
 
 	public static void load() {
 
-		backGround = new Texture(Gdx.files.internal("bg.png"));
+		backGround = new Texture(Gdx.files.internal("background_01.png"));
 		
 		textureAtlas = new TextureAtlas(Gdx.files.internal("images/gameTextures.atlas"));
 
@@ -73,17 +74,14 @@ public class AssetLoader {
 		flippedSpike.flip(true, true);
 		
 		platform = textureAtlas.findRegion("platform",1);
-		platform.flip(false, true);
 		
 		evilPlatform = textureAtlas.findRegion("evilPlatform",1);
-		evilPlatform.flip(false, true);
+		evilPlatform.flip(true, false);
 
 		dudeIdleLeft = textureAtlas.findRegion("blueFobolWalk",1);
 		
 		dudeFallingLeft = textureAtlas.findRegion("blueFobolIdle");
-		dudeFallingLeft.flip(false, true); // TODO Image is flipped in Atlas, fix it.
 		dudeFallingRight = new TextureRegion(dudeFallingLeft);
-		dudeFallingLeft.flip(true, false); // TODO Image is flipped in Atlas, fix it.
 
 		
 		dudeIdleRight = new TextureRegion(dudeIdleLeft);
@@ -101,7 +99,7 @@ public class AssetLoader {
 		dudeWalkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, dudeWalkLeftFrames);
 
 		for (int i = 0; i < 6; i++) {
-			dudeWalkRightFrames[i].flip(false, true);
+			dudeWalkRightFrames[i].flip(false, false);
 			dudeWalkLeftFrames[i] = new TextureRegion(dudeWalkRightFrames[i]);
 			dudeWalkLeftFrames[i].flip(true, false);
 		}

@@ -6,7 +6,7 @@ public class GameConstants {
 
 	public static final float SCREEN_WIDTH = Gdx.graphics.getWidth();
 	public static final float SCREEN_HEIGHT =  Gdx.graphics.getHeight();
-	public static final float GAME_WIDTH = 136;
+	public static final float GAME_WIDTH = 136; // 136
 	public static final float GAME_HEIGHT = SCREEN_HEIGHT  / (SCREEN_WIDTH / GAME_WIDTH);
 	public static final int GAME_MID_POINT_Y = (int) (GAME_HEIGHT / 2);
 	public static final float GAME_VELOCITY = 20;
@@ -29,7 +29,7 @@ public class GameConstants {
 	public final static float X_VALUE_TIME_SEPARATOR = 55f;
 	public final static float X_VALUE_TEN_SECONDS = 70f;
 	public final static float X_VALUE_ONE_SECONDS = 85f;
-	public final static float Y_VALUE_TIME = 360f;
+	public final static float Y_VALUE_TIME = GAME_HEIGHT-SCORE_FONT_HEIGHT;
 	
 	
 	// Score
@@ -40,7 +40,7 @@ public class GameConstants {
 	public final static float X_VALUE_HUNDRED = 112f;
 	public final static float X_VALUE_TEN = 120f;
 	public final static float X_VALUE_ONE = 128f;
-	public final static float Y_VALUE_SCORE = 0f;
+	public final static float Y_VALUE_SCORE = GAME_HEIGHT-SCORE_FONT_HEIGHT;
 	
 	public final static float X_VALUE_MILLION_MOD = X_VALUE_MILLION-0f;
 	public final static float X_VALUE_HUNDRED_THOUSAND_MOD = X_VALUE_HUNDRED_THOUSAND-0f;
@@ -49,10 +49,11 @@ public class GameConstants {
 	public final static float X_VALUE_HUNDRED_MOD = X_VALUE_HUNDRED-0f;
 	public final static float X_VALUE_TEN_MOD = X_VALUE_TEN-0f;
 	public final static float X_VALUE_ONE_MOD = X_VALUE_ONE-0f;
-	public final static float Y_VALUE_SCORE_MOD = Y_VALUE_SCORE-0f;
+	public final static float Y_VALUE_SCORE_MOD = GAME_HEIGHT-SCORE_FONT_HEIGHT;
 	
 	public static final int SCORE_INCREMENT_PER_FRAME = 3;
 	public static final int INITIAL_GAME_DIFFICULTY = 4;
 	public static final int INITIAL_GAME_VELOCITY = 1;
 	public static final int GAME_ROWS = 5;
+	public static final boolean TOGGLE_PLATFORMS = true;
 }

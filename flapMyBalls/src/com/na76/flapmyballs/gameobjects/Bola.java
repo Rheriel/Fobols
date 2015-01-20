@@ -52,7 +52,7 @@ public class Bola extends GameObject implements Collidable {
 		System.out.println(this.getState());
 		System.out.println(position.x + " "+ position.y);
 
-		if (isAlive){
+		if (isAlive()){
 			if (this.getState() == State.FALLING){
 
 				velocity.add(acceleration.cpy().scl(delta));
@@ -61,7 +61,7 @@ public class Bola extends GameObject implements Collidable {
 					velocity.y = BOLA_FALLING_VELOCITY;
 
 				}
-				position.add(velocity.cpy().scl(delta));
+				position.sub(velocity.cpy().scl(delta));
 			} 
 
 			hitbox.y = position.y;
@@ -167,22 +167,22 @@ public class Bola extends GameObject implements Collidable {
 	public void collideWithPlatform(Platform platform){
 		if(isCollidingWithSpikes == false){
 			isCollidingWithPlatform = true;
-			this.position.y = platform.hitbox.y - (float)this.height;
+			this.position.y = platform.hitbox.y + platform.getHeight();
 			onCollide();
 		}
 	}
 
 	public void collideWithSpikes(){
 		isCollidingWithSpikes = true;
-		isAlive = false;
+		setAlive(false);
 		onCollide();
 	}
 
 	public void collideWithEvilPlatform(Platform evilPlatform) {
 		if(isCollidingWithSpikes == false){
 			isCollidingWithEvilPlatform = true;
-			isAlive = false;
-			this.position.y = evilPlatform.hitbox.y - (float)this.height;
+			setAlive(false);
+			this.position.y = evilPlatform.hitbox.y + (float)this.height;
 			onCollide();
 		}
 	}
@@ -196,7 +196,7 @@ public class Bola extends GameObject implements Collidable {
 			AssetLoader.currentDudeFrame = AssetLoader.dudeDead;
 		}
 
-		if (isAlive && Gdx.input.isTouched()) {
+		if (isAlive() && Gdx.input.isTouched()) {
 
 			this.touchDown();
 
@@ -215,7 +215,7 @@ public class Bola extends GameObject implements Collidable {
 	}
 
 	public void touchUp() {
-		if (isAlive) {
+		if (isAlive()) {
 			if (this.state == State.WALKING){
 				this.state = State.IDLE;
 			}
@@ -232,10 +232,18 @@ public class Bola extends GameObject implements Collidable {
 		velocity.y = 0;
 		acceleration.x = 0;
 		acceleration.y = 460;
-		isAlive = true;
+		setAlive(true);
 		isCollidingWithPlatform = false;
 		isCollidingWithSpikes = false;
 		isCollidingWithEvilPlatform = false;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
 	}
 
 }

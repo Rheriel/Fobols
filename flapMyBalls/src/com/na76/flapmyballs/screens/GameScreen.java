@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
 	public GameScreen(){
 		Gdx.app.log("Game Screen", "Constructor called");
 		cam = new OrthographicCamera();
-		cam.setToOrtho(true, (int) GameConstants.GAME_WIDTH, (int) GameConstants.GAME_HEIGHT);
+		cam.setToOrtho(false, (int) GameConstants.GAME_WIDTH, (int) GameConstants.GAME_HEIGHT);
 
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(cam.combined);

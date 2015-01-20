@@ -23,7 +23,7 @@ public class Main {
 		settings.flattenPaths = true;
 
 		TexturePacker.process(settings,"../flapMyBalls/images", "../flapMyBalls-android/assets/images", "gameTextures");
-		TexturePacker.process(settings,"../flapMyBalls/images_text", "../flapMyBalls-android/assets/images", "gamePackText");
+		TexturePacker.process(settings,"../flapMyBalls/images_text/Pusab_Font", "../flapMyBalls-android/assets/images", "gamePackText");
 
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

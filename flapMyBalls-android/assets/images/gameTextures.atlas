@@ -4,149 +4,163 @@ size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
-HM_Logo
+HM
   rotate: false
-  xy: 2, 427
-  size: 597, 587
-  orig: 597, 587
+  xy: 2, 422
+  size: 800, 600
+  orig: 800, 600
   offset: 0, 0
-  index: -1
+  index: 2
 blueFobolIdle
   rotate: false
-  xy: 601, 690
+  xy: 607, 96
   size: 324, 324
   orig: 324, 324
   offset: 0, 0
   index: -1
 blueFobolWalk
   rotate: false
-  xy: 621, 363
+  xy: 2, 95
   size: 301, 325
   orig: 301, 325
   offset: 0, 0
   index: 1
-blueFobolWalk
-  rotate: false
-  xy: 621, 38
-  size: 302, 323
-  orig: 302, 323
-  offset: 0, 0
-  index: 2
-blueFobolWalk
-  rotate: false
-  xy: 621, 38
-  size: 302, 323
-  orig: 302, 323
-  offset: 0, 0
-  index: 4
 evilPlatform
   rotate: false
-  xy: 2, 257
-  size: 617, 168
-  orig: 617, 168
-  offset: 0, 0
-  index: 2
-evilPlatform
-  rotate: false
-  xy: 2, 2
+  xy: 2, 10
   size: 267, 83
   orig: 267, 83
   offset: 0, 0
   index: 1
+fobolWalk
+  rotate: false
+  xy: 305, 95
+  size: 300, 325
+  orig: 300, 325
+  offset: 0, 0
+  index: 1
 p1_duck
   rotate: false
-  xy: 540, 14
+  xy: 804, 724
   size: 69, 71
   orig: 69, 71
   offset: 0, 0
   index: -1
 p1_front
   rotate: false
-  xy: 925, 33
+  xy: 897, 2
   size: 66, 92
   orig: 66, 92
   offset: 0, 0
   index: -1
 p1_hurt
   rotate: false
-  xy: 924, 450
+  xy: 826, 2
   size: 69, 92
   orig: 69, 92
   offset: 0, 0
   index: -1
 p1_jump
   rotate: false
-  xy: 925, 317
+  xy: 804, 628
   size: 67, 94
   orig: 67, 94
   offset: 0, 0
   index: -1
+p1_stand
+  rotate: false
+  xy: 872, 439
+  size: 66, 92
+  orig: 66, 92
+  offset: 0, 0
+  index: -1
 p1_walk01
   rotate: false
-  xy: 925, 127
+  xy: 804, 438
   size: 66, 93
   orig: 72, 97
   offset: 5, 3
   index: -1
+p1_walk02
+  rotate: false
+  xy: 873, 630
+  size: 66, 92
+  orig: 72, 97
+  offset: 6, 4
+  index: -1
 p1_walk03
   rotate: false
-  xy: 927, 733
+  xy: 681, 2
   size: 71, 92
   orig: 72, 97
   offset: 1, 5
   index: -1
 p1_walk04
   rotate: false
-  xy: 927, 922
+  xy: 607, 2
   size: 72, 92
   orig: 72, 97
   offset: 0, 4
   index: -1
 p1_walk05
   rotate: false
-  xy: 927, 827
+  xy: 804, 929
   size: 71, 93
   orig: 72, 97
   offset: 0, 2
   index: -1
 p1_walk06
   rotate: false
-  xy: 927, 639
+  xy: 754, 2
   size: 70, 92
   orig: 72, 97
   offset: 0, 1
   index: -1
 p1_walk07
   rotate: false
-  xy: 924, 544
+  xy: 804, 834
   size: 70, 93
   orig: 72, 97
   offset: 0, 0
   index: -1
+p1_walk08
+  rotate: false
+  xy: 873, 536
+  size: 66, 92
+  orig: 72, 97
+  offset: 3, 0
+  index: -1
+p1_walk09
+  rotate: false
+  xy: 876, 835
+  size: 66, 92
+  orig: 72, 97
+  offset: 3, 0
+  index: -1
 p1_walk10
   rotate: false
-  xy: 925, 222
+  xy: 804, 533
   size: 67, 93
   orig: 72, 97
   offset: 3, 0
   index: -1
+p1_walk11
+  rotate: false
+  xy: 877, 930
+  size: 66, 92
+  orig: 72, 97
+  offset: 4, 2
+  index: -1
 platform
   rotate: false
-  xy: 2, 87
-  size: 617, 168
-  orig: 617, 168
-  offset: 0, 0
-  index: 2
-platform
-  rotate: false
-  xy: 271, 2
+  xy: 271, 10
   size: 267, 83
   orig: 267, 83
   offset: 0, 0
   index: 1
 spikes
   rotate: false
-  xy: 924, 413
+  xy: 804, 797
   size: 70, 35
   orig: 70, 70
   offset: 0, 0
@@ -159,99 +173,98 @@ filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
 blueFobolWalk
   rotate: false
-  xy: 606, 656
-  size: 302, 317
-  orig: 302, 317
-  offset: 0, 0
-  index: 3
-blueFobolWalk
-  rotate: false
-  xy: 606, 656
-  size: 302, 317
-  orig: 302, 317
-  offset: 0, 0
-  index: 5
-blueFobolWalk
-  rotate: false
-  xy: 304, 335
+  xy: 621, 360
   size: 301, 313
   orig: 301, 313
   offset: 0, 0
   index: 6
-fobolWalk
+blueFobolWalk
   rotate: false
-  xy: 2, 648
-  size: 300, 325
-  orig: 300, 325
+  xy: 2, 329
+  size: 302, 317
+  orig: 302, 317
   offset: 0, 0
-  index: 1
-fobolWalk
+  index: 3
+blueFobolWalk
   rotate: false
-  xy: 304, 650
-  size: 300, 323
-  orig: 300, 323
+  xy: 2, 329
+  size: 302, 317
+  orig: 302, 317
+  offset: 0, 0
+  index: 5
+blueFobolWalk
+  rotate: false
+  xy: 608, 35
+  size: 302, 323
+  orig: 302, 323
+  offset: 0, 0
+  index: 2
+blueFobolWalk
+  rotate: false
+  xy: 608, 35
+  size: 302, 323
+  orig: 302, 323
+  offset: 0, 0
+  index: 4
+evilPlatform
+  rotate: false
+  xy: 2, 818
+  size: 617, 168
+  orig: 617, 168
   offset: 0, 0
   index: 2
 fobolWalk
   rotate: false
-  xy: 2, 2
+  xy: 621, 675
+  size: 300, 311
+  orig: 300, 311
+  offset: 0, 0
+  index: 4
+fobolWalk
+  rotate: false
+  xy: 306, 329
   size: 300, 317
   orig: 300, 317
   offset: 0, 0
   index: 3
 fobolWalk
   rotate: false
-  xy: 2, 2
+  xy: 306, 329
   size: 300, 317
   orig: 300, 317
   offset: 0, 0
   index: 5
 fobolWalk
   rotate: false
-  xy: 304, 22
-  size: 300, 311
-  orig: 300, 311
+  xy: 2, 4
+  size: 300, 323
+  orig: 300, 323
   offset: 0, 0
-  index: 4
+  index: 2
 fobol_idle
   rotate: false
-  xy: 2, 321
+  xy: 304, 2
   size: 300, 325
   orig: 300, 325
   offset: 0, 0
   index: -1
-p1_stand
+platform
   rotate: false
-  xy: 910, 881
-  size: 66, 92
-  orig: 66, 92
+  xy: 2, 648
+  size: 617, 168
+  orig: 617, 168
   offset: 0, 0
-  index: -1
-p1_walk02
+  index: 2
+
+gameTextures3.png
+size: 1024,1024
+format: RGBA8888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+HM_Logo
   rotate: false
-  xy: 910, 787
-  size: 66, 92
-  orig: 72, 97
-  offset: 6, 4
-  index: -1
-p1_walk08
-  rotate: false
-  xy: 910, 693
-  size: 66, 92
-  orig: 72, 97
-  offset: 3, 0
-  index: -1
-p1_walk09
-  rotate: false
-  xy: 607, 562
-  size: 66, 92
-  orig: 72, 97
-  offset: 3, 0
-  index: -1
-p1_walk11
-  rotate: false
-  xy: 607, 468
-  size: 66, 92
-  orig: 72, 97
-  offset: 4, 2
+  xy: 2, 2
+  size: 597, 587
+  orig: 597, 587
+  offset: 0, 0
   index: -1

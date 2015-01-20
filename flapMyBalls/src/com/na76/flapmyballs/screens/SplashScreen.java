@@ -12,7 +12,7 @@ import com.na76.flapmyballs.constants.GameConstants;
 
 public class SplashScreen implements Screen {
 
-	private Texture splash = new Texture(Gdx.files.internal("HM_Logo.png"));
+	private Texture splash = new Texture(Gdx.files.internal("HM_2.png"));
 	private Image splashImage = new Image(splash);
 	private Stage stage = new Stage();
 
@@ -24,8 +24,8 @@ public class SplashScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor( 1f, 1f, 1f, 1f );
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clear the batch
-		splashImage.setScale(.35f, .35f);
-        splashImage.setX((GameConstants.GAME_WIDTH / 2f) - (splashImage.getImageWidth()/2f) *.1f);
+		splashImage.setScale(.4f, .4f);
+        splashImage.setX((GameConstants.GAME_WIDTH / 2f) - (splashImage.getImageWidth()/2f) *.2f);
         splashImage.setY((GameConstants.GAME_HEIGHT * 2f) - (splashImage.getImageHeight()/2));
 
         stage.act();
