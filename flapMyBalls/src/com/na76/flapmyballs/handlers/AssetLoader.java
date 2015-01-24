@@ -67,11 +67,11 @@ public class AssetLoader {
 		
 		textureAtlas = new TextureAtlas(Gdx.files.internal("images/gameTextures.atlas"));
 
-		spike = textureAtlas.findRegion("spikes");
+		spike = textureAtlas.findRegion("evilSpikes");
 
 		flippedSpike = new AtlasRegion(spike);
 		
-		flippedSpike.flip(true, true);
+		flippedSpike.flip(false, true);
 		
 		platform = textureAtlas.findRegion("platform",1);
 		

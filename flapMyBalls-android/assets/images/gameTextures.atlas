@@ -171,86 +171,58 @@ size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
-blueFobolWalk
+HM_Logo
   rotate: false
-  xy: 621, 360
-  size: 301, 313
-  orig: 301, 313
+  xy: 2, 427
+  size: 597, 587
+  orig: 597, 587
   offset: 0, 0
-  index: 6
+  index: -1
 blueFobolWalk
   rotate: false
-  xy: 2, 329
-  size: 302, 317
-  orig: 302, 317
-  offset: 0, 0
-  index: 3
-blueFobolWalk
-  rotate: false
-  xy: 2, 329
-  size: 302, 317
-  orig: 302, 317
-  offset: 0, 0
-  index: 5
-blueFobolWalk
-  rotate: false
-  xy: 608, 35
+  xy: 601, 691
   size: 302, 323
   orig: 302, 323
   offset: 0, 0
   index: 2
 blueFobolWalk
   rotate: false
-  xy: 608, 35
+  xy: 601, 691
   size: 302, 323
   orig: 302, 323
   offset: 0, 0
   index: 4
+blueFobolWalk
+  rotate: false
+  xy: 601, 372
+  size: 302, 317
+  orig: 302, 317
+  offset: 0, 0
+  index: 3
+blueFobolWalk
+  rotate: false
+  xy: 601, 372
+  size: 302, 317
+  orig: 302, 317
+  offset: 0, 0
+  index: 5
 evilPlatform
   rotate: false
-  xy: 2, 818
+  xy: 380, 202
   size: 617, 168
   orig: 617, 168
   offset: 0, 0
   index: 2
-fobolWalk
+evilSpikes
   rotate: false
-  xy: 621, 675
-  size: 300, 311
-  orig: 300, 311
-  offset: 0, 0
-  index: 4
-fobolWalk
-  rotate: false
-  xy: 306, 329
-  size: 300, 317
-  orig: 300, 317
-  offset: 0, 0
-  index: 3
-fobolWalk
-  rotate: false
-  xy: 306, 329
-  size: 300, 317
-  orig: 300, 317
-  offset: 0, 0
-  index: 5
-fobolWalk
-  rotate: false
-  xy: 2, 4
-  size: 300, 323
-  orig: 300, 323
-  offset: 0, 0
-  index: 2
-fobol_idle
-  rotate: false
-  xy: 304, 2
-  size: 300, 325
-  orig: 300, 325
+  xy: 2, 2
+  size: 376, 423
+  orig: 376, 423
   offset: 0, 0
   index: -1
 platform
   rotate: false
-  xy: 2, 648
+  xy: 380, 32
   size: 617, 168
   orig: 617, 168
   offset: 0, 0
@@ -261,10 +233,45 @@ size: 1024,1024
 format: RGBA8888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
-HM_Logo
+blueFobolWalk
+  rotate: false
+  xy: 606, 652
+  size: 301, 313
+  orig: 301, 313
+  offset: 0, 0
+  index: 6
+fobolWalk
+  rotate: false
+  xy: 2, 315
+  size: 300, 323
+  orig: 300, 323
+  offset: 0, 0
+  index: 2
+fobolWalk
+  rotate: false
+  xy: 304, 648
+  size: 300, 317
+  orig: 300, 317
+  offset: 0, 0
+  index: 3
+fobolWalk
+  rotate: false
+  xy: 304, 648
+  size: 300, 317
+  orig: 300, 317
+  offset: 0, 0
+  index: 5
+fobolWalk
   rotate: false
   xy: 2, 2
-  size: 597, 587
-  orig: 597, 587
+  size: 300, 311
+  orig: 300, 311
+  offset: 0, 0
+  index: 4
+fobol_idle
+  rotate: false
+  xy: 2, 640
+  size: 300, 325
+  orig: 300, 325
   offset: 0, 0
   index: -1

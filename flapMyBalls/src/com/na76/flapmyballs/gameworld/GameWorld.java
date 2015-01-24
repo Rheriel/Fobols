@@ -58,17 +58,17 @@ public class GameWorld {
 
 		bola = new Bola(STARTING_BOLA_X, STARTING_BOLA_Y,BOLA_WIDTH, BOLA_HEIGHT);
 
-		int topSpikesWidth = AssetLoader.spike.getRegionWidth() / 3;
-		int topSpikesHeight = AssetLoader.spike.getRegionHeight() / 3;
+		int topSpikesWidth = AssetLoader.flippedSpike.getRegionWidth() / GameConstants.SPIKE_SCALE;
+		int topSpikesHeight = AssetLoader.flippedSpike.getRegionHeight() / GameConstants.SPIKE_SCALE;
 
-		int bottomSpikesWidth = AssetLoader.flippedSpike.getRegionWidth() / 3;
-		int bottomSpikesHeight = AssetLoader.flippedSpike.getRegionHeight() / 3;
+		int bottomSpikesWidth = AssetLoader.spike.getRegionWidth() / GameConstants.SPIKE_SCALE;
+		int bottomSpikesHeight = AssetLoader.spike.getRegionHeight() / GameConstants.SPIKE_SCALE;
 
-		topSpikes = new Spikes(0, 0,topSpikesWidth ,topSpikesHeight , AssetLoader.spike);
-		bottomSpikes = new Spikes(0, GameConstants.GAME_HEIGHT - bottomSpikesHeight , bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.flippedSpike);
+		topSpikes = new Spikes(0, GameConstants.GAME_HEIGHT - (bottomSpikesHeight / (GameConstants.TOP_SPIKE_OVERLAP_Y)),topSpikesWidth ,topSpikesHeight , AssetLoader.flippedSpike);
+		bottomSpikes = new Spikes(0, 0 - (bottomSpikesHeight / GameConstants.BOTTOM_SPIKE_OVERLAP_Y), bottomSpikesWidth, bottomSpikesHeight,  AssetLoader.spike);
 
-		topSpikes.setNewBounds(0,0, GameConstants.GAME_WIDTH, topSpikesHeight / 2);
-		bottomSpikes.setNewBounds(0,GameConstants.GAME_HEIGHT - (bottomSpikesHeight / 2), GameConstants.GAME_WIDTH, bottomSpikesHeight / 2);
+//		topSpikes.setNewBounds(0,GameConstants.GAME_HEIGHT - (bottomSpikesHeight / (GameConstants.TOP_SPIKE_OVERLAP_Y)), topSpikesWidth, topSpikesHeight);
+//		bottomSpikes.setNewBounds(0,0 - (bottomSpikesHeight / GameConstants.BOTTOM_SPIKE_OVERLAP_Y), bottomSpikesWidth, bottomSpikesHeight);
 		random = new Random();
 
 		worldBounds = new Rectangle(0 + 1, GameConstants.GAME_HEIGHT - 1, GameConstants.GAME_WIDTH - 1, 0 + 1);
@@ -97,7 +97,7 @@ public class GameWorld {
 				}
 
 				Platform platform = createRandomPlatform(isEvilPlatform);
-				platform.setY(0 - (bola.getHeight()  + (platform.getHeight() * i *2)));
+				platform.setY(-1 - (bola.getHeight()  + (platform.getHeight() * i *2)));
 				platforms.add(platform);
 			}
 		}

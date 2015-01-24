@@ -60,15 +60,15 @@ public class GameRenderer {
 	private void drawSpikes(SpriteBatch batcher) {
 		Spikes topSpikes = myWorld.getTopSpikes();
 		Spikes bottomSpikes = myWorld.getBottomSpikes();
+		
+		float spikeDistance = topSpikes.getWidth() - (topSpikes.getWidth() / GameConstants.SPIKE_OVERLAP_X);
+		int numberOfSpikesPerScreen = (int) (GameConstants.GAME_WIDTH / spikeDistance);
 
-
-		for(int i = 0; i <= Gdx.graphics.getWidth(); i += topSpikes.getWidth()) {
-			batcher.draw(AssetLoader.spike, i, 0, topSpikes.getWidth(), topSpikes.getHeight());
+		for(int i = 0; i < numberOfSpikesPerScreen; i++) {
+			batcher.draw(topSpikes.getTexture(), i*spikeDistance, topSpikes.getY(), topSpikes.getWidth(), topSpikes.getHeight());
+			batcher.draw(bottomSpikes.getTexture(), i*spikeDistance, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
 		}
 
-		for(int i = 0; i <= Gdx.graphics.getWidth(); i += bottomSpikes.getWidth()) {
-			batcher.draw(AssetLoader.flippedSpike, i, bottomSpikes.getY(), bottomSpikes.getWidth(), bottomSpikes.getHeight());
-		}
 	}
 
 	private void drawPlatform(SpriteBatch batcher){
